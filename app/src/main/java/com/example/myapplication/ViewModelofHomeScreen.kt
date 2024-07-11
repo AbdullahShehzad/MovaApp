@@ -15,14 +15,17 @@ class HomeScreenViewModel : ViewModel() {
     private val _newReleases = MutableStateFlow<List<ModelImage>>(emptyList())
     val newReleases: StateFlow<List<ModelImage>> = _newReleases.asStateFlow()
 
+    private var pageNum = 1
+
     fun dataInit(){
-        fetchTop10Movies()
-        fetchNewReleases()
+        pageNum += 1
+        fetchTop10Movies(pageNum)
+        fetchNewReleases(pageNum)
     }
 
-    private fun fetchTop10Movies() {
+    private fun fetchTop10Movies(pageNum: Int) {
         viewModelScope.launch {
-            val response = Network.movieService.getTop10Movies()
+            val response = Network.movieService.getTop10Movies(pageNum)
             if (response.isSuccessful) {
                 val body = response.body()
                 body?.getAsJsonArray("results")?.let { results ->
@@ -33,9 +36,9 @@ class HomeScreenViewModel : ViewModel() {
         }
     }
 
-    private fun fetchNewReleases() {
+    private fun fetchNewReleases(pageNum: Int) {
         viewModelScope.launch {
-            val response = Network.movieService.getNewReleases()
+            val response = Network.movieService.getNewReleases(pageNum)
             if (response.isSuccessful) {
                 val body = response.body()
                 body?.getAsJsonArray("results")?.let { results ->

@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Query
 
 
 object Network
@@ -27,12 +28,12 @@ interface MoviesService
         "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTYzNzMwODEyMjRjZDY1NGU5NzExNThkYzQxZGM1MSIsIm5iZiI6MTcyMDQzOTMxNC4xNzQ1MSwic3ViIjoiNjY4YmFhMTA1NmUwY2VmZjY4YWU2YWRlIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.lZTtGh28vnrgP15ol2V8P0uM_CN-A9krrzu-UHVpXQw"
     )
     @GET("movie/top_rated")
-    suspend fun getTop10Movies(): Response<JsonObject>
+    suspend fun getTop10Movies(@Query("page") page: Int): Response<JsonObject>
 
     @Headers(
         "accept: application/json",
         "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTYzNzMwODEyMjRjZDY1NGU5NzExNThkYzQxZGM1MSIsIm5iZiI6MTcyMDQzOTMxNC4xNzQ1MSwic3ViIjoiNjY4YmFhMTA1NmUwY2VmZjY4YWU2YWRlIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.lZTtGh28vnrgP15ol2V8P0uM_CN-A9krrzu-UHVpXQw"
     )
     @GET("movie/now_playing")
-    suspend fun getNewReleases(): Response <JsonObject>
+    suspend fun getNewReleases(@Query("page") page: Int): Response <JsonObject>
 }
