@@ -4,17 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class CustomAdapter : RecyclerView.Adapter<CustomAdapter.ViewHolder>()
+class CustomAdapter(@LayoutRes private val layout: Int) : RecyclerView.Adapter<CustomAdapter.ViewHolder>()
 {
     private val BASE_URL_IMG: String = "https://image.tmdb.org/t/p/w500"
     private val imageArray: MutableList<ModelImage> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.rv_image, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(layout, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -31,7 +32,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomAdapter.ViewHolder>()
             .into(holder.titleImage)
     }
 
-    fun populateArray(data : List<ModelImage>){
+    fun populateArray(data : List<ModelImage>) {
         imageArray.addAll(data)
         notifyDataSetChanged()
     }

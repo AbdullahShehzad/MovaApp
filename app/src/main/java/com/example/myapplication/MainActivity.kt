@@ -14,15 +14,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         // Make the content go behind the status bar
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        // Get the WindowInsetsControllerCompat
         val windowInsetsController = WindowInsetsControllerCompat(window, window.decorView)
         windowInsetsController.isAppearanceLightStatusBars = false // Adjust if you want light or dark status bar icons
         window.statusBarColor = getColor(android.R.color.transparent)
 
+        //Fragment population.
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                add<HomeScreen>(R.id.main)
+                add<HomeScreen>(R.id.parentFragment)
             }
         }
     }

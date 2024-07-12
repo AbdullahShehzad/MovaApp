@@ -2,6 +2,9 @@
 
 <androidx.fragment.app.FragmentContainerView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/main" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:menu="@menu/nav_items"/>

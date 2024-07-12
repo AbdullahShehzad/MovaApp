@@ -45,13 +45,15 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/rvTopMovies"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="@id/back"
         app:layout_constraintTop_toBottomOf="@id/topMovies"
         app:layout_constraintEnd_toEndOf="@id/Search"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="100dp"
+        android:paddingHorizontal="24dp"
         app:spanCount="2"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/rv_expanded_image"
