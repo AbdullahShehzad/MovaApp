@@ -10,13 +10,12 @@ import androidx.fragment.app.replace
 class LogIn : Fragment(R.layout.fragment_login) {
     private lateinit var signUpButton: TextView
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         signUpButton = view.findViewById(R.id.sign_up_button)
         signUpButton.setOnClickListener {
             requireActivity().supportFragmentManager.commit {
-                replace <SignUp> (R.id.main)
+                replace<SignUp>(R.id.main)
             }
         }
     }

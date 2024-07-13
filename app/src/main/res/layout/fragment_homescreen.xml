@@ -4,155 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/upperPortion"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_constraintHeight_percent="0.45"
-    app:layout_constraintTop_toTopOf="parent">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/homeImage"
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/homeScreenFiller"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/navbar"
+        tools:layout="@layout/frag_homescreen_scroll"
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        android:src="@drawable/image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.45"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="76dp"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/nav_items"
+        android:background="@color/white">
 
 
-    <ImageView
-        android:id="@+id/search"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="20dp"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_search"
-        app:layout_constraintEnd_toStartOf="@id/notification"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/notification"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="24dp"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_notification"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/playButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/buttonRed"
-        android:drawableLeft="@drawable/img_4"
-        android:text="@string/play"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/homeImage"
-        app:layout_constraintStart_toStartOf="@id/homeImage" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/my_list_button_style"
-        android:drawableLeft="@drawable/ic_plus"
-        android:text="@string/myList"
-        android:textSize="14sp"
-        app:backgroundTint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@id/homeImage"
-        app:layout_constraintStart_toEndOf="@id/playButton" />
-
-    <TextView
-        android:id="@+id/top10"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
-        android:layout_marginStart="24dp"
-        android:fontFamily="@font/urbanistbold"
-        android:text="@string/top10"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeImage" />
-
-    <TextView
-        android:id="@+id/see_all1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="@string/See_all"
-        android:textColor="@color/buttonRed"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/top10"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/top10" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top10"
-        tools:listitem="@layout/rv_image"
-        tools:orientation="horizontal" />
-
-    <TextView
-        android:id="@+id/NewReleases"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
-        android:layout_marginStart="24dp"
-        android:fontFamily="@font/urbanistbold"
-        android:text="@string/new_releases"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView1" />
-
-    <TextView
-        android:id="@+id/see_all2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="@string/See_all"
-        android:textColor="@color/buttonRed"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/NewReleases"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/NewReleases" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp"
-        tools:listitem="@layout/rv_image"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/NewReleases" />
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

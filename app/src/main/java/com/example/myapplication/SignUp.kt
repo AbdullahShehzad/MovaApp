@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -16,7 +15,7 @@ class SignUp : Fragment(R.layout.fragment_signup) {
         signInButton = view.findViewById(R.id.sign_in_button)
         signInButton.setOnClickListener {
             requireActivity().supportFragmentManager.commit {
-                replace <LogIn> (R.id.main)
+                replace<LogIn>(R.id.main)
             }
         }
     }
