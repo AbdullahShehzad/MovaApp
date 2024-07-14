@@ -1,7 +1,7 @@
+package com.example.myapplication
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.ModelImage
-import com.example.myapplication.Network
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,15 +19,19 @@ class HomeScreenViewModel : ViewModel() {
     private var pageNumNewRelease = 1
 
     fun dataInit(string: String = "") {
-        if (string == "topRated") {
-            pageNumTopRated += 1
-            fetchTop10Movies(pageNumTopRated)
-        } else if (string == "newRelease") {
-            pageNumNewRelease += 1
-            fetchNewReleases(pageNumNewRelease)
-        } else {
-            fetchTop10Movies(1)
-            fetchNewReleases(1)
+        when (string) {
+            "topRated" -> {
+                pageNumTopRated += 1
+                fetchTop10Movies(pageNumTopRated)
+            }
+            "newRelease" -> {
+                pageNumNewRelease += 1
+                fetchNewReleases(pageNumNewRelease)
+            }
+            else -> {
+                fetchTop10Movies(1)
+                fetchNewReleases(1)
+            }
         }
 
     }
