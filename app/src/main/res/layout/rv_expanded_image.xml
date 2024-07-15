@@ -22,4 +22,18 @@
     android:layout_marginHorizontal="4dp"
     />
 
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/cardImage"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/style_rating"
+        android:textColor="@color/white"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:textSize="11sp"
+        android:paddingHorizontal="6dp"
+        android:paddingVertical="3dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

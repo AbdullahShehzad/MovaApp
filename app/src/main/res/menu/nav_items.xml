@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item android:id="@+id/action_home"
         android:title="@string/home"
-        android:icon="@drawable/homevector" />
-    <item android:id="@+id/action_settings"
+        android:icon="@drawable/ic_home" />
+
+    <item android:id="@+id/action_explore"
         android:title="@string/explore"
-        android:icon="@drawable/explorevector" />
+        android:icon="@drawable/svg_explore_icon" />
+
+    <item android:id="@+id/action_mylist"
+        android:title="@string/myList"
+        android:icon="@drawable/svg_mylist" />
+
+    <item android:id="@+id/action_download"
+        android:title="@string/download"
+        android:icon="@drawable/svg_download" />
+
+    <item android:id="@+id/action_profile"
+        android:title="@string/profile"
+        android:icon="@drawable/svg_profile" />
 
 </menu>

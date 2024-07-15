@@ -24,4 +24,8 @@
     <string name="explore">Explore</string>
     <string name="movie_description">Action, Superhero, Science Fiction, Thriller, and obviously Marvel! :P</string>
     <string name="movie_name">Dr. Strange 2</string>
+    <string name="download">Download</string>
+    <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

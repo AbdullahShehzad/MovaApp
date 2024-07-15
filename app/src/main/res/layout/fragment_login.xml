@@ -12,14 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
-        android:src="@drawable/baseline_arrow_back_24" />
+        android:src="@drawable/svg_back_arrow" />
 
     <ImageView
         android:layout_width="@dimen/_96sdp"
         android:layout_height="@dimen/_96sdp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/svg_logo" />
 
     <TextView
         android:layout_width="match_parent"
@@ -36,8 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
-        android:background="@drawable/round"
-        android:drawableStart="@drawable/message"
+        android:background="@drawable/style_round"
+        android:drawableStart="@drawable/ic_email"
         android:drawablePadding="12dp"
         android:hint="@string/emailHint"
         android:padding="20dp"
@@ -47,9 +47,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/round"
-        android:drawableStart="@drawable/lock"
-        android:drawableEnd="@drawable/hide"
+        android:background="@drawable/style_round"
+        android:drawableStart="@drawable/ic_lock"
+        android:drawableEnd="@drawable/ic_hide_password"
         android:drawablePadding="12dp"
         android:hint="@string/password"
         android:padding="20dp"
@@ -64,7 +64,7 @@
         <CheckBox
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/checkboxstyle"
+            android:background="@drawable/style_checkbox"
             android:button="@null"
             android:padding="0dp" />
 
@@ -138,29 +138,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/button_style"
+            android:background="@drawable/style_app_icon_wrapper"
             android:clickable="true"
             android:focusable="true"
             android:paddingHorizontal="32dp"
             android:paddingVertical="18dp"
-            android:src="@drawable/img" />
+            android:src="@drawable/ic_facebook" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/button_style"
+            android:background="@drawable/style_app_icon_wrapper"
             android:paddingHorizontal="32dp"
             android:paddingVertical="18dp"
-            android:src="@drawable/img_1" />
+            android:src="@drawable/ic_google" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_style"
+            android:background="@drawable/style_app_icon_wrapper"
             android:paddingHorizontal="32dp"
             android:paddingVertical="18dp"
-            android:src="@drawable/img_2" />
+            android:src="@drawable/ic_apple" />
 
 
     </LinearLayout>
