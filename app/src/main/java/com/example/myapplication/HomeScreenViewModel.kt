@@ -24,16 +24,17 @@ class HomeScreenViewModel : ViewModel() {
                 pageNumTopRated += 1
                 fetchTop10Movies(pageNumTopRated)
             }
+
             "newRelease" -> {
                 pageNumNewRelease += 1
                 fetchNewReleases(pageNumNewRelease)
             }
+
             else -> {
                 fetchTop10Movies(1)
                 fetchNewReleases(1)
             }
         }
-
     }
 
     private fun fetchTop10Movies(pageNum: Int) {
@@ -42,8 +43,12 @@ class HomeScreenViewModel : ViewModel() {
             if (response.isSuccessful) {
                 val body = response.body()
                 body?.getAsJsonArray("results")?.let { results ->
-                    val images =
-                        results.map { ModelImage(it.asJsonObject.getAsJsonPrimitive("poster_path").asString) }
+                    val images = results.map {
+                        ModelImage(
+                            url = it.asJsonObject.getAsJsonPrimitive("poster_path").asString,
+                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble
+                        )
+                    }
                     _topMovies.value = images
                 }
             }
@@ -56,8 +61,12 @@ class HomeScreenViewModel : ViewModel() {
             if (response.isSuccessful) {
                 val body = response.body()
                 body?.getAsJsonArray("results")?.let { results ->
-                    val images =
-                        results.map { ModelImage(it.asJsonObject.getAsJsonPrimitive("poster_path").asString) }
+                    val images = results.map {
+                        ModelImage(
+                            url = it.asJsonObject.getAsJsonPrimitive("poster_path").asString,
+                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble
+                        )
+                    }
                     _newReleases.value = images
                 }
             }

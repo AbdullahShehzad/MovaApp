@@ -22,5 +22,6 @@
     <string name="new_releases">New Releases</string>
     <string name="home">Home</string>
     <string name="explore">Explore</string>
-
+    <string name="movie_description">Action, Superhero, Science Fiction, Thriller, and obviously Marvel! :P</string>
+    <string name="movie_name">Dr. Strange 2</string>
 </resources>

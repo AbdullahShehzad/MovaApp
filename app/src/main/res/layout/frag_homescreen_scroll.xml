@@ -60,14 +60,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/buttonRed"
-        android:drawableLeft="@drawable/img_4"
+        android:background="@drawable/playbutton_style"
+        app:backgroundTint="@color/buttonRed"
+        android:drawableLeft="@drawable/ic_play_button"
         android:text="@string/play"
-        android:textSize="14sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/homeImage"
         app:layout_constraintStart_toStartOf="@id/homeImage" />
 
     <Button
+        android:id="@+id/myList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -79,6 +81,40 @@
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@id/homeImage"
         app:layout_constraintStart_toEndOf="@id/playButton" />
+    
+    <TextView
+        android:id="@+id/movieDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/playButton"
+        app:layout_constraintStart_toStartOf="@+id/playButton"
+        app:layout_constraintEnd_toEndOf="@id/myList"
+        android:layout_marginBottom="8dp"
+        android:text="@string/movie_description"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/urbanist"
+        android:ellipsize="end"
+        android:singleLine="true"
+        />
+
+    <TextView
+        android:id="@+id/movieName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/movieDescription"
+        app:layout_constraintStart_toStartOf="@+id/playButton"
+        app:layout_constraintEnd_toEndOf="@id/myList"
+        android:layout_marginBottom="8dp"
+        android:text="@string/movie_name"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:fontFamily="@font/urbanistbold"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:singleLine="true"
+        />
+
 
     <TextView
         android:id="@+id/top10"
@@ -89,6 +125,7 @@
         android:fontFamily="@font/urbanistbold"
         android:text="@string/top10"
         android:textSize="20sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@id/see_all1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeImage" />
@@ -101,6 +138,7 @@
         android:text="@string/See_all"
         android:textColor="@color/buttonRed"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/top10"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/top10" />
@@ -128,6 +166,7 @@
         android:fontFamily="@font/urbanistbold"
         android:text="@string/new_releases"
         android:textSize="20sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@id/see_all2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView1" />
@@ -140,6 +179,7 @@
         android:text="@string/See_all"
         android:textColor="@color/buttonRed"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/NewReleases"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/NewReleases" />
@@ -156,6 +196,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/NewReleases"
         tools:listitem="@layout/rv_image" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

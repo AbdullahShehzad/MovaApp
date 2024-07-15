@@ -9,17 +9,16 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/navbar"
-        >
-    <androidx.fragment.app.FragmentContainerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/homeScreenFiller"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/navbar"
-        tools:layout="@layout/frag_homescreen_scroll"
-        />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/homeScreenFiller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/navbar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/frag_homescreen_scroll" />
 
     </ScrollView>
 
@@ -27,9 +26,9 @@
         android:id="@+id/navbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/nav_items"
-        android:background="@color/white">
+        app:menu="@menu/nav_items">
 
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
