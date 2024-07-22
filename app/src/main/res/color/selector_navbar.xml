@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/color/selector_bottom_nav_item.xml -->
+
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true" android:color="@color/buttonRed"/>
-    <item android:color="@color/grayScaleMedium" />
+    <item android:state_checked="false" android:color="@color/grayScaleMedium" />
 </selector>
