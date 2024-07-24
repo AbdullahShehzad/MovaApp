@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.getAndUpdate
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeScreenViewModel : ViewModel() {
+class ViewModelMovies : ViewModel() {
 
     private val _topMovies = MutableStateFlow<List<ModelImage>>(emptyList())
     val topMovies: StateFlow<List<ModelImage>> = _topMovies.asStateFlow()
@@ -18,18 +20,20 @@ class HomeScreenViewModel : ViewModel() {
     private var pageNumTopRated = 1
     private var pageNumNewRelease = 1
 
+    init {
+        dataInit()
+    }
+
     fun dataInit(string: String = "") {
         when (string) {
             "topRated" -> {
                 pageNumTopRated += 1
                 fetchTop10Movies(pageNumTopRated)
             }
-
             "newRelease" -> {
                 pageNumNewRelease += 1
                 fetchNewReleases(pageNumNewRelease)
             }
-
             else -> {
                 fetchTop10Movies(1)
                 fetchNewReleases(1)
@@ -49,7 +53,7 @@ class HomeScreenViewModel : ViewModel() {
                             rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble
                         )
                     }
-                    _topMovies.value = images
+                    _topMovies.update { it + images }
                 }
             }
         }
@@ -67,7 +71,7 @@ class HomeScreenViewModel : ViewModel() {
                             rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble
                         )
                     }
-                    _newReleases.value = images
+                    _newReleases.update { it + images }
                 }
             }
         }

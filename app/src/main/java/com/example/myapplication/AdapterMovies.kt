@@ -10,10 +10,10 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class CustomAdapter(@LayoutRes private val layout: Int) :
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+open class AdapterMovies(@LayoutRes private val layout: Int) :
+    RecyclerView.Adapter<AdapterMovies.ViewHolder>() {
     private val BASE_URL_IMG: String = "https://image.tmdb.org/t/p/w500"
-    private val imageArray: MutableList<ModelImage> = mutableListOf()
+    val imageArray: MutableList<ModelImage> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(layout, parent, false)
@@ -41,6 +41,7 @@ class CustomAdapter(@LayoutRes private val layout: Int) :
 
     @SuppressLint("NotifyDataSetChanged")
     fun populateArray(data: List<ModelImage>) {
+        imageArray.clear()
         imageArray.addAll(data)
         notifyDataSetChanged()
     }

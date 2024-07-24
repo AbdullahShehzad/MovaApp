@@ -7,22 +7,21 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 
-class Explore : Fragment(R.layout.fragment_explore) {
+class Explore : Fragment(R.layout.fragment_screen_explore) {
 
-    private val adapterTopMovies: CustomAdapter = CustomAdapter(R.layout.rv_expanded_image)
-    private val viewModel by viewModels<HomeScreenViewModel>()
+    private val adapterTopMovies: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image)
+    private val viewModel by activityViewModels<ViewModelMovies>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.dataInit()
         addObservers()
 
         view.findViewById<RecyclerView?>(R.id.rv_explore)?.apply {
@@ -39,22 +38,9 @@ class Explore : Fragment(R.layout.fragment_explore) {
                 }
             })
         }
-
-        view.findViewById <EditText> (R.id.searchField).apply {
-           setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-               //This applies the filtering action when enter is pressed on the edit text field.
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    val inputText = text.toString()
-                    Log.d("EMovie name",inputText)
-                    return@OnEditorActionListener true
-                }
-                false
-            })
-        }
     }
 
     private fun addObservers() {
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -64,5 +50,9 @@ class Explore : Fragment(R.layout.fragment_explore) {
                 }
             }
         }
+    }
+
+    companion object {
+        const val TAG = "Explore"
     }
 }

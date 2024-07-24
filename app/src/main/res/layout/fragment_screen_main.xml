@@ -10,11 +10,13 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainScreenFrag"
+        android:name="com.example.myapplication.HomeScreen"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/navbar"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/frag_homescreen_scroll" />
+        tools:layout="@layout/fragment_screen_home"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navbar"

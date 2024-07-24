@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -15,14 +16,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         WindowInsetsControllerCompat(window, window.decorView).apply {
             isAppearanceLightStatusBars = false
         }
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                add<MainScreen>(R.id.parentFragment)
-                setReorderingAllowed(true)
-                addToBackStack("hostFrag")
-            }
-        }
-
     }
+
 }

@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 
-class LogIn : Fragment(R.layout.fragment_login) {
+class LogIn : Fragment(R.layout.fragment_screen_login) {
     private lateinit var signUpButton: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
