@@ -43,4 +43,8 @@ interface MoviesService {
 
     @GET("movie/now_playing")
     suspend fun getNewReleases(@Query("page") page: Int): Response<JsonObject>
+
+    @GET("search/movie")
+    suspend fun FilterMovies(@Query("query") title: String, @Query("page") page: Int) : Response<JsonObject>
+
 }

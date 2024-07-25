@@ -27,9 +27,14 @@ open class AdapterMovies(@LayoutRes private val layout: Int) :
     @SuppressLint("DefaultLocale")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentImage = imageArray[position]
-        Glide.with(holder.itemView.context)
-            .load(BASE_URL_IMG + currentImage.url)
-            .into(holder.titleImage)
+        if (currentImage.url != "null")
+            Glide.with(holder.itemView.context)
+                .load(BASE_URL_IMG + currentImage.url)
+                .into(holder.titleImage)
+        else
+            Glide.with(holder.itemView.context)
+                .load(R.drawable.ic_no_image)
+                .into(holder.titleImage)
 
         holder.titleRating.text = String.format("%.1f", currentImage.rating)
     }

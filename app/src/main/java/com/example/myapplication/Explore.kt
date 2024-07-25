@@ -1,11 +1,9 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -23,17 +21,32 @@ class Explore : Fragment(R.layout.fragment_screen_explore) {
         super.onViewCreated(view, savedInstanceState)
 
         addObservers()
+        val editText = view.findViewById<EditText>(R.id.searchField)
+
+        editText.doAfterTextChanged {
+            it ?: return@doAfterTextChanged
+            viewModel.changeFilterNum()
+            if (it.isEmpty()) {
+                viewModel.clearData()
+                viewModel.fetchTop10Movies(1)
+            }
+            else viewModel.filteredMovies(it.toString())
+        }
 
         view.findViewById<RecyclerView?>(R.id.rv_explore)?.apply {
             adapter = adapterTopMovies
-
             //PAGINATION LOGIC FOR TOP RATE MOVIES
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     if (!recyclerView.canScrollVertically(1)) {
                         //Implement the new Api call here.
-                        viewModel.dataInit("topRated")
+                        if (editText.text.isNotEmpty()) {
+                            viewModel.filteredMovies(editText.text.toString())
+                            return
+                        }
+                        if(viewModel.topMovies.value.isNotEmpty())
+                            viewModel.fetchTop10Movies()
                     }
                 }
             })

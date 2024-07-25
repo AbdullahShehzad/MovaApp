@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -31,7 +30,7 @@ class TopMovies : Fragment(R.layout.fragment_screen_top_movies) {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     if (!recyclerView.canScrollVertically(1)) {
-                        viewModel.dataInit("topRated")
+                        viewModel.fetchTop10Movies()
                     }
                 }
             })
