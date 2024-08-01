@@ -15,10 +15,14 @@ import kotlinx.coroutines.launch
 class Explore : Fragment(R.layout.fragment_screen_explore) {
 
     private val adapterTopMovies: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image)
-    private val viewModel by activityViewModels<ViewModelMovies>()
+    private val viewModel by activityViewModels<ViewModelExplore>()
+    private lateinit var bottomSheet: BottomSheet
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        bottomSheet = BottomSheet()
 
         addObservers()
         val editText = view.findViewById<EditText>(R.id.searchField)
@@ -30,10 +34,12 @@ class Explore : Fragment(R.layout.fragment_screen_explore) {
                 viewModel.clearData()
                 viewModel.fetchTop10Movies(1)
             }
-            else viewModel.filteredMovies(it.toString())
+            else {
+                viewModel.filteredMovies(it.toString())
+            }
         }
 
-        view.findViewById<RecyclerView?>(R.id.rv_explore)?.apply {
+        view.findViewById<RecyclerView>(R.id.rv_explore).apply {
             adapter = adapterTopMovies
             //PAGINATION LOGIC FOR TOP RATE MOVIES
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -49,8 +55,17 @@ class Explore : Fragment(R.layout.fragment_screen_explore) {
                             viewModel.fetchTop10Movies()
                     }
                 }
+
             })
         }
+
+        view.findViewById<View>(R.id.filter).setOnClickListener {
+            editText.text.clear()
+            if (!bottomSheet.isAdded) {
+                bottomSheet.show(parentFragmentManager, BottomSheet::class.java.simpleName)
+            }
+        }
+
     }
 
     private fun addObservers() {

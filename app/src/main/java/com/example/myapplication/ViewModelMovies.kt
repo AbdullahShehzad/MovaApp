@@ -31,8 +31,10 @@ class ViewModelMovies : ViewModel() {
                 body?.getAsJsonArray("results")?.let { results ->
                     val images = results.map {
                         ModelImage(
-                            url = it.asJsonObject.getAsJsonPrimitive("poster_path").asString,
-                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble
+                            url = it.asJsonObject.getAsJsonPrimitive("poster_path")
+                                .asString,
+                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average")
+                                .asDouble
                         )
                     }
                     if (num == 1) {
@@ -65,53 +67,9 @@ class ViewModelMovies : ViewModel() {
         }
     }
 
-    fun filteredMovies(title: String) {
-        viewModelScope.launch {
-            if (pageNumFilter == 1)
-                _topMovies.value = emptyList()
-            val response = Network.movieService.FilterMovies(title, pageNumFilter)
-            if (response.isSuccessful) {
-                val body = response.body()
-                body?.getAsJsonArray("results")?.let { results ->
-                    val images = results.map { result ->
-                        val jsonObject = result.asJsonObject
-                        val posterPath =
-                            if (jsonObject.get("poster_path") != null && !jsonObject.get("poster_path").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("poster_path").asString
-                            } else if (jsonObject.get("backdrop_path") != null && !jsonObject.get("backdrop_path").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("backdrop_path").asString
-                            } else {
-                                "null"  // Image Place Holder.
-                            }
-                        val rating =
-                            if (jsonObject.get("vote_average") != null && !jsonObject.get("vote_average").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("vote_average").asDouble
-                            } else {
-                                0.00
-                            }
-                        ModelImage(
-                            url = posterPath,
-                            rating = rating
-                        )
-                    }
-                    _topMovies.update { it + images }
-                }
-            }
-            ++pageNumFilter
-        }
-    }
-
-    fun clearData() {
-        _topMovies.value = emptyList()
-    }
-
-    fun changeFilterNum() {
-        pageNumFilter = 1
-    }
 
     companion object {
         var pageNumTopRated = 1
         var pageNumNewRelease = 1
-        var pageNumFilter = 1
     }
 }

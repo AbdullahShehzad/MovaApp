@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="MyShape">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
@@ -8,6 +9,32 @@
     <style name="PlayButtonShape">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">100dp</item>
+    </style>
+
+    <style name="buttons">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">100dp</item>
+        <item name="backgroundColor">@color/buttonRed</item>
+    </style>
+
+    <style name="chipStyle" parent="@style/Widget.MaterialComponents.Chip.Filter">
+        <item name="chipStrokeColor">@color/buttonRed</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipBackgroundColor">@color/selector_chip_bg</item>
+        <item name="chipMinTouchTargetSize">0dp</item>
+        <item name="chipCornerRadius">100dp</item>
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="android:fontFamily">@font/urbanistbold</item>
+        <item name="textEndPadding">15dp</item>
+        <item name="textStartPadding">15dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="chipIconEnabled">false</item>
+        <item name="closeIconEnabled">false</item>
+        <item name="chipIconTint">@null</item>
+        <item name="closeIconTint">@null</item>
+        <item name="chipIconSize">1dp</item>
+        <item name="closeIconSize">0dp</item>
+
     </style>
 
 

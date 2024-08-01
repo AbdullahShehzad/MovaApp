@@ -1,57 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/searchField"
-        android:autofillHints=""
-        android:imeOptions="actionDone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:layout_marginStart="24dp"
-        android:background="@drawable/style_round"
-        android:drawableStart="@drawable/svg_search_gray_light"
-        android:drawablePadding="12dp"
-        android:hint="@string/search"
-        android:inputType="text"
-        android:padding="20dp"
-        android:textSize="14sp"
-        android:backgroundTint="@color/grayScaleLight"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/filter"
-        android:layout_marginEnd="12dp"/>
-
-    <ImageView
-        android:id="@+id/filter"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/style_filter_button"
-        android:padding="21dp"
-        android:src="@drawable/svg_filter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/searchField" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_explore"
-        android:paddingHorizontal="24dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@+id/searchField"
-        app:layout_constraintEnd_toEndOf="@+id/filter"
-        app:layout_constraintTop_toBottomOf="@+id/searchField"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:spanCount="2"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:listitem="@layout/rv_expanded_image"
-        android:layout_marginTop="24dp"
-        />
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/searchField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginEnd="12dp"
+            android:autofillHints=""
+            android:background="@drawable/style_round"
+            android:backgroundTint="@color/grayScaleLight"
+            android:drawableStart="@drawable/svg_search_gray_light"
+            android:drawablePadding="12dp"
+            android:hint="@string/search"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:padding="20dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/filter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/filter"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/style_filter_button"
+            android:padding="21dp"
+            android:src="@drawable/svg_filter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/searchField" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_explore"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="24dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/filter"
+            app:layout_constraintStart_toStartOf="@+id/searchField"
+            app:layout_constraintTop_toBottomOf="@+id/searchField"
+            app:spanCount="2"
+            tools:listitem="@layout/rv_expanded_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

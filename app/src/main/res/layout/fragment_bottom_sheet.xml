@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/style_bottom_sheet_background"
+    android:clipToPadding="false"
+    android:paddingHorizontal="24dp"
+    android:paddingBottom="48dp">
+
+    <View
+        android:id="@+id/upperRectangle"
+        android:layout_width="40dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="8dp"
+        android:background="#E0E0E0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sortFilterTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanistbold"
+        android:text="@string/sort_and_filter"
+        android:textColor="@color/buttonRed"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upperRectangle" />
+
+    <View
+        android:id="@+id/lineBreak"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="#E0E0E0"
+        app:layout_constraintTop_toBottomOf="@id/sortFilterTitle" />
+
+    <TextView
+        android:id="@+id/regions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanistbold"
+        android:text="@string/regions"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lineBreak" />
+
+    <HorizontalScrollView
+        android:id="@+id/regionScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="-24dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="24dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/regions">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/regionChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            app:checkedChip="@+id/allRegions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true"
+            tools:ignore="ScrollViewSize">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/allRegions"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription=""
+                android:text="@string/all_regions" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/us"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/us" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sk"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/south_korea" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/china"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/china" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/turkey"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/turkey" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/india"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/india" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/genre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanistbold"
+        android:text="@string/genre"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/regionScrollView" />
+
+    <HorizontalScrollView
+        android:id="@+id/genreScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="-24dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="24dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/genre">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/genreChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:singleLine="true"
+            tools:ignore="ScrollViewSize">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/action"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="28"
+                android:text="@string/action" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/comedy"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="35"
+                android:text="@string/comedy" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/romance"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="10749"
+                android:text="@string/romance" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/thriller"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="53"
+                android:text="@string/thriller" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/drama"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="18"
+                android:text="@string/drama" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/horror"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="27"
+                android:text="@string/horror" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/timePeriod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanistbold"
+        android:text="@string/time_period"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genreScrollView" />
+
+    <HorizontalScrollView
+        android:id="@+id/timeScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="-24dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="24dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/timePeriod">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/timeChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            app:checkedChip="@+id/allPeriods"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true"
+            tools:ignore="ScrollViewSize">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/allPeriods"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/all_periods" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ttt"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/_2022" />
+
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/tto"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/_2021" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/tt"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/_2020" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/tn"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/_2019" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/te"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/_2018" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ts"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/_2017" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/sort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/urbanistbold"
+        android:text="@string/sort"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeScrollView" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/sortChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="24dp"
+        app:checkedChip="@+id/popularity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sort"
+        app:selectionRequired="true"
+        app:singleLine="true"
+        app:singleSelection="true"
+        tools:ignore="ScrollViewSize">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/popularity"
+            style="@style/chipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/popularity" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/latestRelease"
+            style="@style/chipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/latest_release" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <View
+        android:id="@+id/lineBreak2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="#E0E0E0"
+        app:layout_constraintTop_toBottomOf="@id/sortChipGroup" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/style_play_button"
+        android:text="@string/reset"
+        android:textColor="@color/buttonRed"
+        app:backgroundTint="#FCE7E9"
+        app:layout_constraintEnd_toStartOf="@id/applyButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineBreak2" />
+
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/style_play_button"
+        android:contentDescription="@string/apply"
+        android:outlineProvider="paddedBounds"
+        android:text="@string/apply"
+        android:textColor="@color/white"
+        android:translationZ="10dp"
+        app:backgroundTint="@color/buttonRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/resetButton"
+        app:layout_constraintTop_toBottomOf="@id/lineBreak2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

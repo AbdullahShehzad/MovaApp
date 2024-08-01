@@ -45,6 +45,18 @@ interface MoviesService {
     suspend fun getNewReleases(@Query("page") page: Int): Response<JsonObject>
 
     @GET("search/movie")
-    suspend fun FilterMovies(@Query("query") title: String, @Query("page") page: Int) : Response<JsonObject>
+    suspend fun FilterMovies(
+        @Query("query") title: String,
+        @Query("page") page: Int
+    ): Response<JsonObject>
+
+    @GET("discover/movie")
+    suspend fun advancedMovieFilter(
+        @Query("region") region: String,
+        @Query("with_genres") genres: String,
+        @Query("primary_release_year") year: Int,
+        @Query("sort_by") sort: String,
+        @Query("page") page: Int
+    ): Response<JsonObject>
 
 }
