@@ -1,4 +1,7 @@
 package com.example.myapplication
 
-data class ModelImage(val url: String = "",
-                      val rating: Double = 0.00)
+data class ModelImage(
+    val url: String = "",
+    val rating: Double = 0.00,
+    val name: String = ""
+)

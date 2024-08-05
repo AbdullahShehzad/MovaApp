@@ -14,7 +14,11 @@ class ViewModelExplore : ViewModel() {
     val topMovies: StateFlow<List<ModelImage>> = _topMovies.asStateFlow()
 
 
-    private val _chipSettings = MutableStateFlow<ModelChipSelection>(ModelChipSelection(R.id.allRegions,emptyList(),R.id.allPeriods, R.id.popularity))
+    private val _chipSettings = MutableStateFlow(
+        ModelChipSelection(
+            R.id.allRegions, emptyList(), R.id.allPeriods, R.id.popularity
+        )
+    )
     val chipSettings = _chipSettings.asStateFlow()
 
     init {
@@ -31,7 +35,8 @@ class ViewModelExplore : ViewModel() {
                     val images = results.map {
                         ModelImage(
                             url = it.asJsonObject.getAsJsonPrimitive("poster_path").asString,
-                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble
+                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble,
+                            name = it.asJsonObject.getAsJsonPrimitive("title").asString
                         )
                     }
                     if (num == 1) {
@@ -68,8 +73,9 @@ class ViewModelExplore : ViewModel() {
                             } else {
                                 0.00
                             }
+                        val movieName = jsonObject.getAsJsonPrimitive("title").asString
                         ModelImage(
-                            url = posterPath, rating = rating
+                            url = posterPath, rating = rating, name = movieName
                         )
                     }
                     _topMovies.update { it + images }
@@ -107,8 +113,9 @@ class ViewModelExplore : ViewModel() {
                             } else {
                                 0.00
                             }
+                        val movieName = jsonObject.getAsJsonPrimitive("title").asString
                         ModelImage(
-                            url = posterPath, rating = rating
+                            url = posterPath, rating = rating, name = movieName
                         )
                     }
                     _topMovies.update { it + images }

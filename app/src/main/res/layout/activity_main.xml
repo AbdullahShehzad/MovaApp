@@ -4,8 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parentFragment"
-    android:name="com.example.myapplication.MainScreen"
+    android:name="com.example.myapplication.Splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:menu="@menu/nav_items"
-    tools:layout="@layout/fragment_screen_main"/>
+    android:tag="splashScreen"
+    tools:layout="@layout/fragment_screen_main"
+    tools:menu="@menu/nav_items" />

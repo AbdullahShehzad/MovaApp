@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -11,27 +12,28 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 
-class TopMovies : Fragment(R.layout.fragment_screen_top_movies) {
+class NewReleases : Fragment(R.layout.fragment_screen_top_movies) {
 
-    private val adapterTopMovies: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image)
+    private val adapterNewReleases: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image)
     private val viewModel by activityViewModels<ViewModelMovies>()
-    private lateinit var rvTopMovies: RecyclerView
+    private lateinit var rvNewReleases: RecyclerView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvTopMovies = view.findViewById(R.id.rvTopMovies)
+        rvNewReleases = view.findViewById(R.id.rvTopMovies)
+        view.findViewById<TextView>(R.id.topMovies).text = "New Releases"
         addObservers()
 
-        rvTopMovies.apply {
-            adapter = adapterTopMovies
+        rvNewReleases.apply {
+            adapter = adapterNewReleases
 
             //PAGINATION LOGIC FOR TOP RATE MOVIES
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     if (!recyclerView.canScrollVertically(1)) {
-                        viewModel.fetchTop10Movies()
+                        viewModel.fetchNewReleases()
                     }
                 }
             })
@@ -50,8 +52,8 @@ class TopMovies : Fragment(R.layout.fragment_screen_top_movies) {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.topMovies.collect { //Listens when the topMovies state is populated in the view model
-                        adapterTopMovies.populateArray(it)
+                    viewModel.newReleases.collect { //Listens when the topMovies state is populated in the view model
+                        adapterNewReleases.populateArray(it)
                     }
                 }
             }
@@ -59,6 +61,6 @@ class TopMovies : Fragment(R.layout.fragment_screen_top_movies) {
     }
 
     companion object {
-        const val TAG = "TopMovies"
+        const val TAG = "NewReleases"
     }
 }

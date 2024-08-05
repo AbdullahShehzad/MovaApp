@@ -1,31 +1,43 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.internal.ViewUtils.showKeyboard
 
 class MainScreen : Fragment(R.layout.fragment_screen_main) {
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bottomNavigationView: BottomNavigationView = view.findViewById(R.id.navbar)
 
-        //THE CORRECT LOGIC (FINALLY)
         with(bottomNavigationView) {
             setOnItemSelectedListener { true }
 
             setOnItemSelectedListener { item ->
+                view.findViewById<ImageView>(R.id.search).setOnClickListener {
+                    selectedItemId = R.id.action_explore
+                    view.findViewById<EditText>(R.id.searchField).apply {
+                        requestFocus()
+                        selectAll()
+                        showKeyboard(view)
+                    }
+
+                }
+
                 when (item.itemId) {
                     R.id.action_explore -> {
                         val f = childFragmentManager.findFragmentByTag(Explore.TAG)
                         val h = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
                         if (f == null) {
                             childFragmentManager.commit {
-                                add <Explore>(R.id.mainScreenFrag, Explore.TAG)
+                                add<Explore>(R.id.mainScreenFrag, Explore.TAG)
                             }
                         } else {
                             childFragmentManager.commit {
@@ -62,7 +74,7 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
         }
     }
 
-    companion object{
+    companion object {
         const val TAG = "MainScreen"
     }
 }

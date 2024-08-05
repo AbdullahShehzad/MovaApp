@@ -1,9 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -11,22 +9,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-class BottomSheet : BottomSheetDialogFragment() {
+class BottomSheet : BottomSheetDialogFragment(R.layout.fragment_bottom_sheet) {
 
     private val viewModel by activityViewModels<ViewModelExplore>()
-    private val adapterTopMovies: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image)
-    var region = ""
+    private var region = ""
     private var genreChipIds = mutableListOf<Int>()
     private var genre = ""
     private var year: Int = 2024
     private var sort = ""
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_bottom_sheet, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,9 +48,6 @@ class BottomSheet : BottomSheetDialogFragment() {
                 }
             }
         }
-
-
-
         applyButtonAction(view)
     }
 

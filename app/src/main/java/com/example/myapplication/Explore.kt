@@ -21,9 +21,7 @@ class Explore : Fragment(R.layout.fragment_screen_explore) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         bottomSheet = BottomSheet()
-
         addObservers()
         val editText = view.findViewById<EditText>(R.id.searchField)
 
@@ -33,8 +31,7 @@ class Explore : Fragment(R.layout.fragment_screen_explore) {
             if (it.isEmpty()) {
                 viewModel.clearData()
                 viewModel.fetchTop10Movies(1)
-            }
-            else {
+            } else {
                 viewModel.filteredMovies(it.toString())
             }
         }
@@ -46,12 +43,11 @@ class Explore : Fragment(R.layout.fragment_screen_explore) {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     if (!recyclerView.canScrollVertically(1)) {
-                        //Implement the new Api call here.
                         if (editText.text.isNotEmpty()) {
                             viewModel.filteredMovies(editText.text.toString())
                             return
                         }
-                        if(viewModel.topMovies.value.isNotEmpty())
+                        if (viewModel.topMovies.value.isNotEmpty())
                             viewModel.fetchTop10Movies()
                     }
                 }

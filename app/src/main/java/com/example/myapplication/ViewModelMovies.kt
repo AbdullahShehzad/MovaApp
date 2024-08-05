@@ -34,7 +34,9 @@ class ViewModelMovies : ViewModel() {
                             url = it.asJsonObject.getAsJsonPrimitive("poster_path")
                                 .asString,
                             rating = it.asJsonObject.getAsJsonPrimitive("vote_average")
-                                .asDouble
+                                .asDouble,
+                            name = it.asJsonObject.getAsJsonPrimitive("title")
+                                .asString
                         )
                     }
                     if (num == 1) {
@@ -57,7 +59,9 @@ class ViewModelMovies : ViewModel() {
                     val images = results.map {
                         ModelImage(
                             url = it.asJsonObject.getAsJsonPrimitive("poster_path").asString,
-                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble
+                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble,
+                            name = it.asJsonObject.getAsJsonPrimitive("title")
+                                .asString
                         )
                     }
                     _newReleases.update { it + images }
