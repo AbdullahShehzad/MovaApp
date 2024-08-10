@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -10,11 +11,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class Explore : Fragment(R.layout.fragment_screen_explore) {
+class Explore : Fragment(R.layout.fragment_screen_explore), AdapterMovies.RecyclerViewEvent {
 
-    private val adapterTopMovies: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image)
+    private val adapterTopMovies: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image, this)
     private val viewModel by activityViewModels<ViewModelExplore>()
     private lateinit var bottomSheet: BottomSheet
 
@@ -47,8 +49,7 @@ class Explore : Fragment(R.layout.fragment_screen_explore) {
                             viewModel.filteredMovies(editText.text.toString())
                             return
                         }
-                        if (viewModel.topMovies.value.isNotEmpty())
-                            viewModel.fetchTop10Movies()
+                        if (viewModel.topMovies.value.isNotEmpty()) viewModel.fetchTop10Movies()
                     }
                 }
 
@@ -78,5 +79,24 @@ class Explore : Fragment(R.layout.fragment_screen_explore) {
 
     companion object {
         const val TAG = "Explore"
+    }
+
+    override fun onItemClick(
+        position: Int, imageURL: String, imageRatings: Double, movieName: String
+    ) {
+        for (movie in viewModel.myList.value) {
+            if (movie.url == imageURL) {
+                Toast.makeText(
+                    this.context, "This movie is already in your list.", Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            MovaApp.database.movieDao().insertAll(ModelImage(imageURL, imageRatings, movieName))
+        }
+        Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG)
+            .show()
     }
 }

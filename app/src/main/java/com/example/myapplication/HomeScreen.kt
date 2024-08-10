@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
@@ -14,12 +15,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HomeScreen : Fragment(R.layout.fragment_screen_home) {
-    private val adapterTopMovies = AdapterHomeScreen()
-    private val adapterNewRelease = AdapterHomeScreen()
+class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.RecyclerViewEvent {
+    private val adapterTopMovies = AdapterHomeScreen(this)
+    private val adapterNewRelease = AdapterHomeScreen(this)
 
     private val viewModel by activityViewModels<ViewModelMovies>()
     private lateinit var rvTopMovies: RecyclerView
@@ -40,10 +42,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home) {
         view.findViewById<TextView>(R.id.see_all1)?.setOnClickListener {
             activity?.supportFragmentManager?.commit {
                 setCustomAnimations(
-                    R.anim.slide_in,
-                    R.anim.fade_out,
-                    R.anim.fade_in,
-                    R.anim.slide_out
+                    R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out
                 )
                 addToBackStack(TopMovies.TAG)
                 add<TopMovies>(R.id.parentFragment, TopMovies.TAG)
@@ -53,10 +52,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home) {
         view.findViewById<TextView>(R.id.see_all2)?.setOnClickListener {
             activity?.supportFragmentManager?.commit {
                 setCustomAnimations(
-                    R.anim.slide_in,
-                    R.anim.fade_out,
-                    R.anim.fade_in,
-                    R.anim.slide_out
+                    R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out
                 )
                 addToBackStack(NewReleases.TAG)
                 add<NewReleases>(R.id.parentFragment, NewReleases.TAG)
@@ -64,7 +60,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home) {
         }
     }
 
-    suspend fun mainImage(view: View) {
+    fun mainImage(view: View) {
         val homeImage1 = view.findViewById<ImageView>(R.id.homeImage1)
         val homeImage2 = view.findViewById<ImageView>(R.id.homeImage2)
         val imageViews = listOf(homeImage1, homeImage2)
@@ -72,55 +68,46 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                while (true)
-                    for (image in viewModel.newReleases.value) {
-                        view.findViewById<TextView>(R.id.movieName).text = image.name
-                        val currentImageView = imageViews[currentImageViewIndex]
-                        val nextImageView = imageViews[1 - currentImageViewIndex]
-                        nextImageView.visibility = View.VISIBLE
-                        val currentImageURL = image.url
+                while (true) for (image in viewModel.newReleases.value) {
+                    view.findViewById<TextView>(R.id.movieName).text = image.name
+                    val currentImageView = imageViews[currentImageViewIndex]
+                    val nextImageView = imageViews[1 - currentImageViewIndex]
+                    nextImageView.visibility = View.VISIBLE
+                    val currentImageURL = image.url
 
-                        Glide.with(nextImageView.context)
-                            .load(BASE_URL_IMG + currentImageURL)
-                            .into(nextImageView)
+                    Glide.with(nextImageView.context).load(BASE_URL_IMG + currentImageURL)
+                        .into(nextImageView)
 
-                        // Animate the current image out to the left
-                        val slideOut = ObjectAnimator.ofFloat(
-                            currentImageView,
-                            "translationX",
-                            0f,
-                            -view.width.toFloat()
-                        )
-                        slideOut.duration = 500
+                    // Animate the current image out to the left
+                    val slideOut = ObjectAnimator.ofFloat(
+                        currentImageView, "translationX", 0f, -view.width.toFloat()
+                    )
+                    slideOut.duration = 500
 
-                        // Animate the next image in from the right
-                        val slideIn = ObjectAnimator.ofFloat(
-                            nextImageView,
-                            "translationX",
-                            view.width.toFloat(),
-                            0f
-                        )
-                        slideIn.duration = 500
+                    // Animate the next image in from the right
+                    val slideIn = ObjectAnimator.ofFloat(
+                        nextImageView, "translationX", view.width.toFloat(), 0f
+                    )
+                    slideIn.duration = 500
 
-                        // Start animations
-                        slideOut.start()
-                        slideIn.start()
+                    // Start animations
+                    slideOut.start()
+                    slideIn.start()
 
-                        delay(500) // Wait for the animations to finish
+                    delay(500) // Wait for the animations to finish
 
-                        // Swap the visibility and reset the translation
-                        currentImageView.visibility = View.GONE
-                        currentImageView.translationX = 0f
+                    // Swap the visibility and reset the translation
+                    currentImageView.visibility = View.GONE
+                    currentImageView.translationX = 0f
 
-                        currentImageViewIndex =
-                            1 - currentImageViewIndex  // Swap the current image index
+                    currentImageViewIndex =
+                        1 - currentImageViewIndex  // Swap the current image index
 
-                        delay(7000) // Delay for 7 seconds before loading the next image
-                    }
+                    delay(7000) // Delay for 7 seconds before loading the next image
+                }
             }
         }
     }
-
 
     private fun addObservers(view: View) {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -143,5 +130,24 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home) {
 
     companion object {
         const val TAG = "Home"
+    }
+
+    override fun onItemClick(
+        position: Int, imageURL: String, imageRatings: Double, movieName: String
+    ) {
+        for (movie in viewModel.myList.value) {
+            if (movie.url == imageURL) {
+                Toast.makeText(
+                    this.context, "This movie is already in your list.", Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            MovaApp.database.movieDao().insertAll(ModelImage(imageURL, imageRatings, movieName))
+        }
+        Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG)
+            .show()
     }
 }

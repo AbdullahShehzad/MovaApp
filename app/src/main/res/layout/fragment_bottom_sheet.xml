@@ -253,43 +253,56 @@
                 android:text="@string/all_periods" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/ttt"
+                android:id="@+id/year2024"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/_2024" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/year2023"
+                style="@style/chipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/_2023" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/year2022"
                 style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/_2022" />
 
-
             <com.google.android.material.chip.Chip
-                android:id="@+id/tto"
+                android:id="@+id/year2021"
                 style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/_2021" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/tt"
+                android:id="@+id/year2020"
                 style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/_2020" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/tn"
+                android:id="@+id/year2019"
                 style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/_2019" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/te"
+                android:id="@+id/year2018"
                 style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/_2018" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/ts"
+                android:id="@+id/year2017"
                 style="@style/chipStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

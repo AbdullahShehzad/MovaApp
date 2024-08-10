@@ -9,7 +9,7 @@
         android:title="@string/explore"
         android:icon="@drawable/selector_explore" />
 
-    <item android:id="@+id/action_mylist"
+    <item android:id="@+id/action_myList"
         android:title="@string/myList"
         android:icon="@drawable/selector_mylist" />
 </menu>

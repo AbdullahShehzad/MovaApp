@@ -25,13 +25,15 @@ class Splash : Fragment(R.layout.fragment_screen_splash) {
         addObservers()
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(4000) // 4000 milliseconds = 4 seconds
-            isRotating = false
-            parentFragmentManager.commit {
-                setCustomAnimations(
-                    R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out
-                )
-                replace<MainScreen>(R.id.parentFragment, MainScreen.TAG)
+            delay(2000) //2 seconds delay at least for smooth User experience.
+            if (viewModel.topMovies.value.isNotEmpty() && viewModel.newReleases.value.isNotEmpty()) {
+                parentFragmentManager.commit {
+                    setCustomAnimations(
+                        R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out
+                    )
+                    replace<MainScreen>(R.id.parentFragment, MainScreen.TAG)
+                }
+                isRotating = false
             }
         }
     }

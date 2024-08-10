@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp.plugin)
 }
 
 android {
@@ -52,5 +53,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.gson.converter)
-    implementation (libs.glide)
+    implementation(libs.glide)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
 }

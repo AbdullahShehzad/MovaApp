@@ -3,8 +3,10 @@ package com.example.myapplication
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -16,6 +18,9 @@ class ViewModelMovies : ViewModel() {
     private val _newReleases = MutableStateFlow<List<ModelImage>>(emptyList())
     val newReleases: StateFlow<List<ModelImage>> = _newReleases.asStateFlow()
 
+    private val _myList = MovaApp.database.movieDao().getAll()
+    val myList: StateFlow<List<ModelImage>> = _myList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+
     init {
         fetchTop10Movies()
         fetchNewReleases()
@@ -23,20 +28,16 @@ class ViewModelMovies : ViewModel() {
 
     fun fetchTop10Movies(num: Int = 0) {
         viewModelScope.launch {
-            if (num == 1)
-                pageNumTopRated = num
+            if (num == 1) pageNumTopRated = num
             val response = Network.movieService.getTop10Movies(pageNumTopRated)
             if (response.isSuccessful) {
                 val body = response.body()
                 body?.getAsJsonArray("results")?.let { results ->
                     val images = results.map {
                         ModelImage(
-                            url = it.asJsonObject.getAsJsonPrimitive("poster_path")
-                                .asString,
-                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average")
-                                .asDouble,
-                            name = it.asJsonObject.getAsJsonPrimitive("title")
-                                .asString
+                            url = it.asJsonObject.getAsJsonPrimitive("poster_path").asString,
+                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble,
+                            name = it.asJsonObject.getAsJsonPrimitive("title").asString
                         )
                     }
                     if (num == 1) {
@@ -60,8 +61,7 @@ class ViewModelMovies : ViewModel() {
                         ModelImage(
                             url = it.asJsonObject.getAsJsonPrimitive("poster_path").asString,
                             rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble,
-                            name = it.asJsonObject.getAsJsonPrimitive("title")
-                                .asString
+                            name = it.asJsonObject.getAsJsonPrimitive("title").asString
                         )
                     }
                     _newReleases.update { it + images }
@@ -70,7 +70,6 @@ class ViewModelMovies : ViewModel() {
             ++pageNumNewRelease
         }
     }
-
 
     companion object {
         var pageNumTopRated = 1

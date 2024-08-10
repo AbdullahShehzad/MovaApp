@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
@@ -22,14 +21,28 @@
         android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/cardImage"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/style_rating"
-        android:textColor="@color/white"
-        android:layout_marginTop="12dp"
         android:layout_marginStart="12dp"
-        android:textSize="11sp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/style_rating"
         android:paddingHorizontal="6dp"
-        android:paddingVertical="3dp"/>
+        android:paddingVertical="3dp"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cardImage" />
+
+    <ImageView
+        android:id="@+id/addToListButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:contentDescription="@null"
+        android:background="@drawable/style_rating"
+        android:src="@drawable/ic_plus"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/cardImage"
+        app:layout_constraintEnd_toEndOf="@id/cardImage" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

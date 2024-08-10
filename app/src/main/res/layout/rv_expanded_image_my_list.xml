@@ -11,7 +11,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     android:contentDescription="@null"
-    android:id="@+id/cardImage"
+    android:id="@+id/cardImageList"
     android:layout_width="0dp"
     android:layout_height="0dp"
     tools:src="@tools:sample/backgrounds/scenic"
@@ -23,10 +23,10 @@
     />
 
     <TextView
-        android:id="@+id/rating"
+        android:id="@+id/ratingList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/cardImage"
+        app:layout_constraintTop_toTopOf="@id/cardImageList"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/style_rating"
         android:textColor="@color/white"
@@ -37,16 +37,16 @@
         android:paddingVertical="3dp"/>
 
     <ImageView
-        android:id="@+id/addToListButton"
+        android:id="@+id/removeFromList"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:contentDescription="@null"
         android:background="@drawable/style_rating"
-        android:src="@drawable/ic_plus"
+        android:src="@drawable/ic_close"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/cardImage"
-        app:layout_constraintEnd_toEndOf="@id/cardImage" />
+        app:layout_constraintBottom_toBottomOf="@+id/cardImageList"
+        app:layout_constraintEnd_toEndOf="@id/cardImageList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

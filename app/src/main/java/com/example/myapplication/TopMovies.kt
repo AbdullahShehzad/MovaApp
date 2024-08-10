@@ -3,17 +3,19 @@ package com.example.myapplication
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TopMovies : Fragment(R.layout.fragment_screen_top_movies) {
+class TopMovies : Fragment(R.layout.fragment_screen_top_movies), AdapterMovies.RecyclerViewEvent {
 
-    private val adapterTopMovies: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image)
+    private val adapterTopMovies: AdapterMovies = AdapterMovies(R.layout.rv_expanded_image, this)
     private val viewModel by activityViewModels<ViewModelMovies>()
     private lateinit var rvTopMovies: RecyclerView
 
@@ -60,5 +62,25 @@ class TopMovies : Fragment(R.layout.fragment_screen_top_movies) {
 
     companion object {
         const val TAG = "TopMovies"
+    }
+
+    //IMPLEMENT LOGIC TO CALL THE NEW FRAGMENT IN THIS FUNCTION.
+    override fun onItemClick(
+        position: Int, imageURL: String, imageRatings: Double, movieName: String
+    ) {
+        for (movie in viewModel.myList.value) {
+            if (movie.url == imageURL) {
+                Toast.makeText(
+                    this.context, "This movie is already in your list.", Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            MovaApp.database.movieDao().insertAll(ModelImage(imageURL, imageRatings, movieName))
+        }
+        Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG)
+            .show()
     }
 }

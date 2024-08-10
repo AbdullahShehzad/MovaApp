@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Mova</string>
     <string name="welcome">Welcome to Mova</string>
     <string name="appDes">The best movie streaming app of the century to make your days great!</string>
     <string name="getStarted">Get Started</string>
@@ -62,4 +62,7 @@
     <string name="sort">Sort</string>
     <string name="all_periods">All Periods</string>
     <string name="all">All</string>
+    <string name="my_list">My List</string>
+    <string name="_2024">2024</string>
+    <string name="_2023">2023</string>
 </resources>

@@ -35,6 +35,7 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
                     R.id.action_explore -> {
                         val f = childFragmentManager.findFragmentByTag(Explore.TAG)
                         val h = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
+                        val k = childFragmentManager.findFragmentByTag(MyList.TAG)
                         if (f == null) {
                             childFragmentManager.commit {
                                 add<Explore>(R.id.mainScreenFrag, Explore.TAG)
@@ -45,6 +46,9 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
                                 if (h != null) {
                                     hide(h)
                                 }
+                                if (k != null) {
+                                    hide(k)
+                                }
                             }
                         }
                         true
@@ -53,6 +57,7 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
                     R.id.action_home -> {
                         val f = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
                         val h = childFragmentManager.findFragmentByTag(Explore.TAG)
+                        val k = childFragmentManager.findFragmentByTag(MyList.TAG)
                         if (f == null) {
                             childFragmentManager.commit {
                                 add<HomeScreen>(R.id.mainScreenFrag, HomeScreen.TAG)
@@ -62,6 +67,31 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
                                 show(f)
                                 if (h != null) {
                                     hide(h)
+                                }
+                                if (k != null) {
+                                    hide(k)
+                                }
+                            }
+                        }
+                        true
+                    }
+
+                    R.id.action_myList -> {
+                        val f = childFragmentManager.findFragmentByTag(MyList.TAG)
+                        val h = childFragmentManager.findFragmentByTag(Explore.TAG)
+                        val k = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
+                        if (f == null) {
+                            childFragmentManager.commit {
+                                add<MyList>(R.id.mainScreenFrag, MyList.TAG)
+                            }
+                        } else {
+                            childFragmentManager.commit {
+                                show(f)
+                                if (h != null) {
+                                    hide(h)
+                                }
+                                if (k != null) {
+                                    hide(k)
                                 }
                             }
                         }
