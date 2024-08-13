@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.ui.view
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -15,6 +15,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.myapplication.data.model.ModelMovie
+import com.example.myapplication.MovaApp
+import com.example.myapplication.R
+import com.example.myapplication.ui.view.adapter.AdapterHomeScreen
+import com.example.myapplication.ui.view.adapter.AdapterMovies
+import com.example.myapplication.ui.viewmodel.ViewModelMovies
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -145,7 +151,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            MovaApp.database.movieDao().insertAll(ModelImage(imageURL, imageRatings, movieName))
+            MovaApp.database.movieDao().insertAll(ModelMovie(imageURL, imageRatings, movieName))
         }
         Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG)
             .show()

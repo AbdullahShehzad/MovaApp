@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.ui.view.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -8,12 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.myapplication.AdapterMovies.RecyclerViewEvent
+import com.example.myapplication.data.model.ModelMovie
+import com.example.myapplication.R
 
 open class AdapterMyList(private val listener: RecyclerViewEvent) : RecyclerView.Adapter<AdapterMyList.ViewHolder>() {
 
     private val BASE_URL_IMG: String = "https://image.tmdb.org/t/p/w500"
-    val imageArray: MutableList<ModelImage> = mutableListOf()
+    val imageArray: MutableList<ModelMovie> = mutableListOf()
 
     interface RecyclerViewEvent {
         fun onItemClick(position: Int, imageURL: String, imageRatings: Double, movieName: String)
@@ -60,7 +61,7 @@ open class AdapterMyList(private val listener: RecyclerViewEvent) : RecyclerView
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun populateArray(data: List<ModelImage>) {
+    fun populateArray(data: List<ModelMovie>) {
         imageArray.clear()
         imageArray.addAll(data)
         notifyDataSetChanged()

@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.ui.view
 
 import android.os.Bundle
 import android.view.View
@@ -10,6 +10,8 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.myapplication.R
+import com.example.myapplication.ui.viewmodel.ViewModelMovies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

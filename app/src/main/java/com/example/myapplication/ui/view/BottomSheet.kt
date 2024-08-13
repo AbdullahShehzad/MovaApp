@@ -1,9 +1,11 @@
-package com.example.myapplication
+package com.example.myapplication.ui.view
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
+import com.example.myapplication.R
+import com.example.myapplication.ui.viewmodel.ViewModelExplore
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
@@ -29,7 +31,7 @@ class BottomSheet : BottomSheetDialogFragment(R.layout.fragment_bottom_sheet) {
                 behavior.skipCollapsed = true
 
                 view.findViewById<ChipGroup>(R.id.regionChipGroup).apply {//
-                    check(viewModel.chipSettings.value.region)//viewModel.regions.value)
+                    check(viewModel.chipSettings.value.region)
                 }
 
                 for(i in 1..<(viewModel.chipSettings.value.genre.size - 1))//i in 1..<(viewModel.genre.value.size - 1))

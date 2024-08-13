@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.ui.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import com.example.myapplication.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.internal.ViewUtils.showKeyboard
 
