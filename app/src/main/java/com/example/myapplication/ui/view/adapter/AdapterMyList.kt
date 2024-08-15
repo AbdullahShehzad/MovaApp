@@ -11,13 +11,20 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.data.model.ModelMovie
 import com.example.myapplication.R
 
-open class AdapterMyList(private val listener: RecyclerViewEvent) : RecyclerView.Adapter<AdapterMyList.ViewHolder>() {
+open class AdapterMyList(private val listener: RecyclerViewEvent) :
+    RecyclerView.Adapter<AdapterMyList.ViewHolder>() {
 
     private val BASE_URL_IMG: String = "https://image.tmdb.org/t/p/w500"
     val imageArray: MutableList<ModelMovie> = mutableListOf()
 
     interface RecyclerViewEvent {
-        fun onItemClick(position: Int, imageURL: String, imageRatings: Double, movieName: String)
+        fun onItemClick(
+            position: Int,
+            imageId: Int,
+            imageURL: String?,
+            imageRatings: Double,
+            movieName: String
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,15 +40,16 @@ open class AdapterMyList(private val listener: RecyclerViewEvent) : RecyclerView
     @SuppressLint("DefaultLocale")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentImage = imageArray[position]
-        if (currentImage.url != "null") Glide.with(holder.itemView.context)
-            .load(BASE_URL_IMG + currentImage.url).into(holder.titleImage)
-        else Glide.with(holder.itemView.context).load(R.drawable.ic_no_image)
+        Glide.with(holder.itemView.context)
+            .load(BASE_URL_IMG + currentImage.url).error(R.drawable.ic_no_image)
             .into(holder.titleImage)
+
 
         holder.titleRating.text = String.format("%.1f", currentImage.rating)
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val titleImage: ImageView = itemView.findViewById(R.id.cardImageList)
         val titleRating: TextView = itemView.findViewById(R.id.ratingList)
         private val removeFromListButton: ImageView = itemView.findViewById(R.id.removeFromList)
@@ -54,7 +62,11 @@ open class AdapterMyList(private val listener: RecyclerViewEvent) : RecyclerView
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 listener.onItemClick(
-                    position, imageArray[position].url, imageArray[position].rating, imageArray[position].name
+                    position,
+                    imageArray[position].id,
+                    imageArray[position].url,
+                    imageArray[position].rating,
+                    imageArray[position].name
                 )
             }
         }

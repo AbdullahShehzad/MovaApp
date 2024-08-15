@@ -15,13 +15,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.myapplication.data.model.ModelMovie
-import com.example.myapplication.MovaApp
 import com.example.myapplication.R
 import com.example.myapplication.ui.view.adapter.AdapterHomeScreen
 import com.example.myapplication.ui.view.adapter.AdapterMovies
 import com.example.myapplication.ui.viewmodel.ViewModelMovies
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -74,7 +71,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                while (true) for (image in viewModel.newReleases.value) {
+                 for (image in viewModel.newReleases.value) {
                     view.findViewById<TextView>(R.id.movieName).text = image.name
                     val currentImageView = imageViews[currentImageViewIndex]
                     val nextImageView = imageViews[1 - currentImageViewIndex]
@@ -139,10 +136,10 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
     }
 
     override fun onItemClick(
-        position: Int, imageURL: String, imageRatings: Double, movieName: String
+        position: Int, imageId: Int, imageURL: String?, imageRatings: Double, movieName: String
     ) {
         for (movie in viewModel.myList.value) {
-            if (movie.url == imageURL) {
+            if (movie.id == imageId) {
                 Toast.makeText(
                     this.context, "This movie is already in your list.", Toast.LENGTH_SHORT
                 ).show()
@@ -150,9 +147,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
             }
         }
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            MovaApp.database.movieDao().insertAll(ModelMovie(imageURL, imageRatings, movieName))
-        }
+        viewModel.addMovieToDB(imageId, imageURL, imageRatings, movieName)
         Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG)
             .show()
     }

@@ -29,7 +29,6 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
                         selectAll()
                         showKeyboard(view)
                     }
-
                 }
 
                 when (item.itemId) {

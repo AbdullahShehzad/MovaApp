@@ -11,12 +11,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.data.model.ModelMovie
-import com.example.myapplication.MovaApp
 import com.example.myapplication.R
 import com.example.myapplication.ui.view.adapter.AdapterMovies
 import com.example.myapplication.ui.viewmodel.ViewModelMovies
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NewReleases : Fragment(R.layout.fragment_screen_top_movies), AdapterMovies.RecyclerViewEvent {
@@ -72,10 +69,10 @@ class NewReleases : Fragment(R.layout.fragment_screen_top_movies), AdapterMovies
     }
 
     override fun onItemClick(
-        position: Int, imageURL: String, imageRatings: Double, movieName: String
+        position: Int, imageId: Int, imageURL: String?, imageRatings: Double, movieName: String
     ) {
         for (movie in viewModel.myList.value) {
-            if (movie.url == imageURL) {
+            if (movie.id == imageId) {
                 Toast.makeText(
                     this.context, "This movie is already in your list.", Toast.LENGTH_SHORT
                 ).show()
@@ -83,9 +80,7 @@ class NewReleases : Fragment(R.layout.fragment_screen_top_movies), AdapterMovies
             }
         }
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            MovaApp.database.movieDao().insertAll(ModelMovie(imageURL, imageRatings, movieName))
-        }
+        viewModel.addMovieToDB(imageId, imageURL, imageRatings, movieName)
         Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG)
             .show()
     }

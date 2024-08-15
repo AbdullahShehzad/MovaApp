@@ -13,20 +13,22 @@ class AuthInterceptor : Interceptor {
         val originalRequest = chain.request()
         val newRequest =
             originalRequest.newBuilder().addHeader("accept", "application/json").addHeader(
-                    "Authorization",
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTYzNzMwODEyMjRjZDY1NGU5NzExNThkYzQxZGM1MSIsIm5iZiI6MTcyMDQzOTMxNC4xNzQ1MSwic3ViIjoiNjY4YmFhMTA1NmUwY2VmZjY4YWU2YWRlIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.lZTtGh28vnrgP15ol2V8P0uM_CN-A9krrzu-UHVpXQw"
-                ).build()
+                "Authorization",
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTYzNzMwODEyMjRjZDY1NGU5NzExNThkYzQxZGM1MSIsIm5iZiI6MTcyMDQzOTMxNC4xNzQ1MSwic3ViIjoiNjY4YmFhMTA1NmUwY2VmZjY4YWU2YWRlIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.lZTtGh28vnrgP15ol2V8P0uM_CN-A9krrzu-UHVpXQw"
+            ).build()
         return chain.proceed(newRequest)
     }
-}
+}// Used to globalise headers.
 
-val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(AuthInterceptor()).build()
+val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(AuthInterceptor())
+    .build()
 
 object Network {
     private val retrofit: Retrofit =
         Retrofit.Builder().baseUrl("https://api.themoviedb.org/3/").client(client)
             .addConverterFactory(GsonConverterFactory.create()).build()
 
+    //Implements the MoviesServices class using the retrofit instance
     val movieService: MoviesService =
-        retrofit.create(MoviesService::class.java) //Implements the MoviesServices class using the retrofit instance
+        retrofit.create(MoviesService::class.java)
 }

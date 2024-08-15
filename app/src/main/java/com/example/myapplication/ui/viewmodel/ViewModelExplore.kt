@@ -2,11 +2,12 @@ package com.example.myapplication.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.data.model.ModelMovie
 import com.example.myapplication.MovaApp
-import com.example.myapplication.util.Network
 import com.example.myapplication.R
-import com.example.myapplication.ui.view.ModelChipSelection
+import com.example.myapplication.data.model.ModelChipSelection
+import com.example.myapplication.data.model.ModelMovie
+import com.example.myapplication.data.repository.MovieRepository
+import com.example.myapplication.util.Network
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,14 +16,22 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ViewModelExplore : ViewModel() {
+class ViewModelExplore(
+    private val movieRepository: MovieRepository = MovieRepository(
+        MovaApp.database.movieDao(), Network.movieService
+    )
+) : ViewModel() {
+
+    private var pageNumTopRated = 1
+    private var pageNumFilter = 1
+    private var advPageFilter = 1
 
     private val _topMovies = MutableStateFlow<List<ModelMovie>>(emptyList())
     val topMovies: StateFlow<List<ModelMovie>> = _topMovies.asStateFlow()
 
     private val _myList = MovaApp.database.movieDao().getAll()
-    val myList: StateFlow<List<ModelMovie>> = _myList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
-
+    val myList: StateFlow<List<ModelMovie>> =
+        _myList.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     private val _chipSettings = MutableStateFlow(
         ModelChipSelection(
@@ -36,133 +45,71 @@ class ViewModelExplore : ViewModel() {
     }
 
     fun fetchTop10Movies(num: Int = 0) {
+        if (num == 1) pageNumTopRated = num
+
         viewModelScope.launch {
-            if (num == 1) pageNumTopRated = num
-            val response = Network.movieService.getTop10Movies(pageNumTopRated)
-            if (response.isSuccessful) {
-                val body = response.body()
-                body?.getAsJsonArray("results")?.let { results ->
-                    val images = results.map {
-                        ModelMovie(
-                            url = it.asJsonObject.getAsJsonPrimitive("poster_path").asString,
-                            rating = it.asJsonObject.getAsJsonPrimitive("vote_average").asDouble,
-                            name = it.asJsonObject.getAsJsonPrimitive("title").asString
-                        )
-                    }
-                    if (num == 1) {
-                        _topMovies.value = images
-                    } else {
-                        _topMovies.update { it + images }
-                    }
-                }
+            val images = movieRepository.fetchTop10Movies(pageNumTopRated)
+            if (num == 1) {
+                _topMovies.value = images
+            } else {
+                _topMovies.update { it + images }
             }
             ++pageNumTopRated
         }
     }
 
+
     fun filteredMovies(title: String) {
+        if (pageNumFilter == 1) {
+            _topMovies.value = emptyList()
+        }
         viewModelScope.launch {
-            if (pageNumFilter == 1) _topMovies.value = emptyList()
-            val response = Network.movieService.filterMovies(title, pageNumFilter)
-            if (response.isSuccessful) {
-                val body = response.body()
-                body?.getAsJsonArray("results")?.let { results ->
-                    val images = results.map { result ->
-                        val jsonObject = result.asJsonObject
-                        val posterPath =
-                            if (jsonObject.get("poster_path") != null && !jsonObject.get("poster_path").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("poster_path").asString
-                            } else if (jsonObject.get("backdrop_path") != null && !jsonObject.get("backdrop_path").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("backdrop_path").asString
-                            } else {
-                                "null"  // Image Place Holder.
-                            }
-                        val rating =
-                            if (jsonObject.get("vote_average") != null && !jsonObject.get("vote_average").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("vote_average").asDouble
-                            } else {
-                                0.00
-                            }
-                        val movieName = jsonObject.getAsJsonPrimitive("title").asString
-                        ModelMovie(
-                            url = posterPath, rating = rating, name = movieName
-                        )
-                    }
-                    _topMovies.update { it + images }
-                }
-            }
+            val images = movieRepository.filteredMovies(title, pageNumFilter)
+            _topMovies.update { it + images }
             ++pageNumFilter
         }
+
     }
 
     fun advancedMovieFilter(region: String, genre: String, year: Int, sort: String) {
+        if (pageNumFilter == 1) {
+            _topMovies.value = emptyList()
+        }
         viewModelScope.launch {
-            if (pageNumFilter == 1) _topMovies.value = emptyList()
-
-            val response = Network.movieService.advancedMovieFilter(
-                region, genre, year, sort, advPageFilter
-            )
-
-            if (response.isSuccessful) {
-                val body = response.body()
-
-                body?.getAsJsonArray("results")?.let { results ->
-                    val images = results.map { result ->
-                        val jsonObject = result.asJsonObject
-                        val posterPath =
-                            if (jsonObject.get("poster_path") != null && !jsonObject.get("poster_path").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("poster_path").asString
-                            } else if (jsonObject.get("backdrop_path") != null && !jsonObject.get("backdrop_path").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("backdrop_path").asString
-                            } else {
-                                "null"  // Image Place Holder.
-                            }
-                        val rating =
-                            if (jsonObject.get("vote_average") != null && !jsonObject.get("vote_average").isJsonNull) {
-                                jsonObject.getAsJsonPrimitive("vote_average").asDouble
-                            } else {
-                                0.00
-                            }
-                        val movieName = jsonObject.getAsJsonPrimitive("title").asString
-                        ModelMovie(
-                            url = posterPath, rating = rating, name = movieName
-                        )
-                    }
-                    _topMovies.update { it + images }
-                }
-            }
+            val images =
+                movieRepository.advancedFilteredMovies(region, genre, year, sort, advPageFilter)
+            _topMovies.update { it + images }
             ++advPageFilter
         }
     }
 
+    fun addMovieToDB(imageId: Int, imageURL: String?, imageRatings: Double, movieName: String) {
+        viewModelScope.launch {
+            movieRepository.addMovieToDatabase(imageId, imageURL, imageRatings, movieName)
+        }
+    }
+
     fun updateRegion(id: Int) {
-        chipSettings.value.region = id
+        _chipSettings.update { it.copy(region = id) }
     }
 
     fun updateGenre(ids: List<Int>) {
-        chipSettings.value.genre = ids
+        _chipSettings.update { it.copy(genre = ids) }
     }
 
     fun updateTime(id: Int) {
-        chipSettings.value.time = id
+        _chipSettings.update { it.copy(time = id) }
     }
 
     fun updateSort(id: Int) {
-        chipSettings.value.sort = id
+        _chipSettings.update { it.copy(sort = id) }
     }
 
-
     fun clearData() {
-        _topMovies.value = emptyList()
+        _topMovies.update { emptyList() }
     }
 
     fun changeFilterNum() {
         pageNumFilter = 1
-    }
-
-    companion object {
-        var pageNumTopRated = 1
-        var pageNumFilter = 1
-        var advPageFilter = 1
     }
 }

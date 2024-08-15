@@ -12,12 +12,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.data.model.ModelMovie
-import com.example.myapplication.MovaApp
 import com.example.myapplication.R
 import com.example.myapplication.ui.view.adapter.AdapterMyList
 import com.example.myapplication.ui.viewmodel.ViewModelMovies
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MyList : Fragment(R.layout.fragment_screen_mylist), AdapterMyList.RecyclerViewEvent {
@@ -40,11 +37,10 @@ class MyList : Fragment(R.layout.fragment_screen_mylist), AdapterMyList.Recycler
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.myList.collect { //Listens when the myList state is populated in the view model
-                    if(it.isEmpty()){
+                    if (it.isEmpty()) {
                         view.findViewById<RecyclerView>(R.id.rv_myList).visibility = GONE
                         view.findViewById<ImageView>(R.id.emptyListBanner).visibility = VISIBLE
-                    }
-                    else{
+                    } else {
                         view.findViewById<RecyclerView>(R.id.rv_myList).visibility = VISIBLE
                         view.findViewById<ImageView>(R.id.emptyListBanner).visibility = GONE
                     }
@@ -60,16 +56,18 @@ class MyList : Fragment(R.layout.fragment_screen_mylist), AdapterMyList.Recycler
 
     override fun onItemClick(
         position: Int,
-        imageURL: String,
+        imageId: Int,
+        imageURL: String?,
         imageRatings: Double,
         movieName: String
     ) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            MovaApp.database.movieDao().delete(ModelMovie(imageURL, imageRatings, movieName))
-        }
-
-        Toast.makeText(this.context, "$movieName is removed from the list.", Toast.LENGTH_LONG)
+        viewModel.removeMovieFromDB(imageId, imageURL, imageRatings, movieName)
+        Toast.makeText(
+            this.context,
+            "$movieName is removed from the list.",
+            Toast.LENGTH_LONG
+        )
             .show()
-
     }
 }
+

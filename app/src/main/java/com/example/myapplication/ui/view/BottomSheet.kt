@@ -30,23 +30,23 @@ class BottomSheet : BottomSheetDialogFragment(R.layout.fragment_bottom_sheet) {
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.skipCollapsed = true
 
-                view.findViewById<ChipGroup>(R.id.regionChipGroup).apply {//
+                view.findViewById<ChipGroup>(R.id.regionChipGroup).apply {
                     check(viewModel.chipSettings.value.region)
                 }
 
-                for(i in 1..<(viewModel.chipSettings.value.genre.size - 1))//i in 1..<(viewModel.genre.value.size - 1))
+                for(i in 1..<(viewModel.chipSettings.value.genre.size - 1))
                 {
-                    view.findViewById<ChipGroup>(R.id.regionChipGroup).apply {//
-                        check(viewModel.chipSettings.value.genre[i])//viewModel.genre.value[i])
+                    view.findViewById<ChipGroup>(R.id.regionChipGroup).apply {
+                        check(viewModel.chipSettings.value.genre[i])
                     }
                 }
 
-                view.findViewById<ChipGroup>(R.id.timeChipGroup).apply {//
-                    check(viewModel.chipSettings.value.time)//viewModel.time.value)
+                view.findViewById<ChipGroup>(R.id.timeChipGroup).apply {
+                    check(viewModel.chipSettings.value.time)
                 }
 
-                view.findViewById<ChipGroup>(R.id.sortChipGroup).apply {//
-                    check(viewModel.chipSettings.value.sort)//viewModel.sort.value)
+                view.findViewById<ChipGroup>(R.id.sortChipGroup).apply {
+                    check(viewModel.chipSettings.value.sort)
                 }
             }
         }
