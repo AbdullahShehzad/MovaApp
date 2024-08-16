@@ -48,7 +48,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainImage(view)
-            }//Commit rules testing
+            }
         }
 
         view.findViewById<ImageView>(R.id.search).setOnClickListener {
