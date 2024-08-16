@@ -3,7 +3,6 @@ package com.example.myapplication.ui.view
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Selection.selectAll
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,6 +21,7 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.view.adapter.AdapterHomeScreen
 import com.example.myapplication.ui.view.adapter.AdapterMovies
 import com.example.myapplication.ui.viewmodel.ViewModelMovies
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.internal.ViewUtils.showKeyboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -35,8 +34,6 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
     private lateinit var rvTopMovies: RecyclerView
     private lateinit var rvNewReleases: RecyclerView
 
-    private val BASE_URL_IMG: String = "https://image.tmdb.org/t/p/w500"
-
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,16 +45,21 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
         rvTopMovies.apply { adapter = adapterTopMovies }
         rvNewReleases.apply { adapter = adapterNewRelease }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainImage(view)
+            }
+        }
+
         view.findViewById<ImageView>(R.id.search).setOnClickListener {
-            Toast.makeText(
-                this.context, "Search Clicked", Toast.LENGTH_LONG
-            ).show()
             parentFragmentManager.apply {
                 commit {
                     show(findFragmentByTag(Explore.TAG)!!)
                     hide(this@HomeScreen)
                 }
             }
+            parentFragment?.view?.findViewById<BottomNavigationView>(R.id.navbar)?.selectedItemId =
+                R.id.action_explore
             parentFragment?.view?.findViewById<EditText>(R.id.searchField)?.apply {
                 requestFocus()
                 selectAll()
@@ -86,52 +88,47 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
         }
     }
 
-    fun mainImage(view: View) {
+    private suspend fun mainImage(view: View) {
         val homeImage1 = view.findViewById<ImageView>(R.id.homeImage1)
         val homeImage2 = view.findViewById<ImageView>(R.id.homeImage2)
         val imageViews = listOf(homeImage1, homeImage2)
         var currentImageViewIndex = 0
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                for (image in viewModel.newReleases.value) {
-                    view.findViewById<TextView>(R.id.movieName).text = image.name
-                    val currentImageView = imageViews[currentImageViewIndex]
-                    val nextImageView = imageViews[1 - currentImageViewIndex]
-                    nextImageView.visibility = View.VISIBLE
-                    val currentImageURL = image.url
+        for (image in viewModel.newReleases.value) {
+            view.findViewById<TextView>(R.id.movieName).text = image.name
+            val currentImageView = imageViews[currentImageViewIndex]
+            val nextImageView = imageViews[1 - currentImageViewIndex]
+            nextImageView.visibility = View.VISIBLE
+            val currentImageURL = image.url
 
-                    Glide.with(nextImageView.context).load(BASE_URL_IMG + currentImageURL)
-                        .into(nextImageView)
+            Glide.with(nextImageView.context).load(BASE_URL_IMG + currentImageURL)
+                .into(nextImageView)
 
-                    // Animate the current image out to the left
-                    val slideOut = ObjectAnimator.ofFloat(
-                        currentImageView, "translationX", 0f, -view.width.toFloat()
-                    )
-                    slideOut.duration = 500
+            // Animate the current image out to the left
+            val slideOut = ObjectAnimator.ofFloat(
+                currentImageView, "translationX", 0f, -view.width.toFloat()
+            )
+            slideOut.duration = 500
 
-                    // Animate the next image in from the right
-                    val slideIn = ObjectAnimator.ofFloat(
-                        nextImageView, "translationX", view.width.toFloat(), 0f
-                    )
-                    slideIn.duration = 500
+            // Animate the next image in from the right
+            val slideIn = ObjectAnimator.ofFloat(
+                nextImageView, "translationX", view.width.toFloat(), 0f
+            )
+            slideIn.duration = 500
 
-                    // Start animations
-                    slideOut.start()
-                    slideIn.start()
+            // Start animations
+            slideOut.start()
+            slideIn.start()
 
-                    delay(500) // Wait for the animations to finish
+            delay(500) // Wait for the animations to finish
 
-                    // Swap the visibility and reset the translation
-                    currentImageView.visibility = View.GONE
-                    currentImageView.translationX = 0f
+            // Swap the visibility and reset the translation
+            currentImageView.visibility = View.GONE
+            currentImageView.translationX = 0f
 
-                    currentImageViewIndex =
-                        1 - currentImageViewIndex  // Swap the current image index
+            currentImageViewIndex = 1 - currentImageViewIndex  // Swap the current image index
 
-                    delay(7000) // Delay for 7 seconds before loading the next image
-                }
-            }
+            delay(7000) // Delay for 7 seconds before loading the next image
         }
     }
 
@@ -147,15 +144,10 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
                 launch {
                     viewModel.newReleases.collect { // does the same thing as the above function but for newReleases array.
                         adapterNewRelease.populateArray(it)
-                        mainImage(view)
                     }
                 }
             }
         }
-    }
-
-    companion object {
-        const val TAG = "Home"
     }
 
     override fun onItemClick(
@@ -172,5 +164,10 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
 
         viewModel.addMovieToDB(imageId, imageURL, imageRatings, movieName)
         Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG).show()
+    }
+
+    companion object {
+        const val TAG = "Home"
+        private const val BASE_URL_IMG: String = "https://image.tmdb.org/t/p/w500"
     }
 }
