@@ -66,8 +66,7 @@ class MyList : Fragment(R.layout.fragment_screen_mylist), AdapterMyList.Recycler
             this.context,
             "$movieName is removed from the list.",
             Toast.LENGTH_LONG
-        )
-            .show()
+        ).show()
     }
 }
 

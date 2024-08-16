@@ -2,9 +2,11 @@ package com.example.myapplication.ui.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Selection.selectAll
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -18,36 +20,36 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
         super.onViewCreated(view, savedInstanceState)
         val bottomNavigationView: BottomNavigationView = view.findViewById(R.id.navbar)
 
-        with(bottomNavigationView) {
-            setOnItemSelectedListener { true }
+        childFragmentManager.apply {
+            commit {
+                add<MyList>(R.id.mainScreenFrag, MyList.TAG)
+                add<Explore>(R.id.mainScreenFrag, Explore.TAG)
+                add<HomeScreen>(R.id.mainScreenFrag, HomeScreen.TAG)
+            }
+        }
 
+        with(bottomNavigationView) {
+            selectedItemId = R.id.action_home
             setOnItemSelectedListener { item ->
-                view.findViewById<ImageView>(R.id.search).setOnClickListener {
-                    selectedItemId = R.id.action_explore
-                    view.findViewById<EditText>(R.id.searchField).apply {
-                        requestFocus()
-                        selectAll()
-                        showKeyboard(view)
-                    }
-                }
 
                 when (item.itemId) {
                     R.id.action_explore -> {
-                        val f = childFragmentManager.findFragmentByTag(Explore.TAG)
-                        val h = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
-                        val k = childFragmentManager.findFragmentByTag(MyList.TAG)
-                        if (f == null) {
+                        val exploreFragment = childFragmentManager.findFragmentByTag(Explore.TAG)
+                        val homeFragment = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
+                        val myListFragment = childFragmentManager.findFragmentByTag(MyList.TAG)
+
+                        if (exploreFragment == null) {
                             childFragmentManager.commit {
                                 add<Explore>(R.id.mainScreenFrag, Explore.TAG)
                             }
                         } else {
                             childFragmentManager.commit {
-                                show(f)
-                                if (h != null) {
-                                    hide(h)
+                                show(exploreFragment)
+                                if (homeFragment != null) {
+                                    hide(homeFragment)
                                 }
-                                if (k != null) {
-                                    hide(k)
+                                if (myListFragment != null) {
+                                    hide(myListFragment)
                                 }
                             }
                         }
@@ -55,21 +57,23 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
                     }
 
                     R.id.action_home -> {
-                        val f = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
-                        val h = childFragmentManager.findFragmentByTag(Explore.TAG)
-                        val k = childFragmentManager.findFragmentByTag(MyList.TAG)
-                        if (f == null) {
+                        val homeFragment = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
+                        val exploreFragment = childFragmentManager.findFragmentByTag(Explore.TAG)
+                        val myListFragment = childFragmentManager.findFragmentByTag(MyList.TAG)
+                        if (homeFragment == null) {
                             childFragmentManager.commit {
+                                add<MyList>(R.id.mainScreenFrag, MyList.TAG)
+                                add<Explore>(R.id.mainScreenFrag, Explore.TAG)
                                 add<HomeScreen>(R.id.mainScreenFrag, HomeScreen.TAG)
                             }
                         } else {
                             childFragmentManager.commit {
-                                show(f)
-                                if (h != null) {
-                                    hide(h)
+                                show(homeFragment)
+                                if (exploreFragment != null) {
+                                    hide(exploreFragment)
                                 }
-                                if (k != null) {
-                                    hide(k)
+                                if (myListFragment != null) {
+                                    hide(myListFragment)
                                 }
                             }
                         }
@@ -77,21 +81,21 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
                     }
 
                     R.id.action_myList -> {
-                        val f = childFragmentManager.findFragmentByTag(MyList.TAG)
-                        val h = childFragmentManager.findFragmentByTag(Explore.TAG)
-                        val k = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
-                        if (f == null) {
+                        val myListFragment = childFragmentManager.findFragmentByTag(MyList.TAG)
+                        val exploreFragment = childFragmentManager.findFragmentByTag(Explore.TAG)
+                        val homeFragment = childFragmentManager.findFragmentByTag(HomeScreen.TAG)
+                        if (myListFragment == null) {
                             childFragmentManager.commit {
                                 add<MyList>(R.id.mainScreenFrag, MyList.TAG)
                             }
                         } else {
                             childFragmentManager.commit {
-                                show(f)
-                                if (h != null) {
-                                    hide(h)
+                                show(myListFragment)
+                                if (exploreFragment != null) {
+                                    hide(exploreFragment)
                                 }
-                                if (k != null) {
-                                    hide(k)
+                                if (homeFragment != null) {
+                                    hide(homeFragment)
                                 }
                             }
                         }
@@ -102,9 +106,41 @@ class MainScreen : Fragment(R.layout.fragment_screen_main) {
                 }
             }
         }
+
+//        view.findViewById<ImageView>(R.id.search).setOnClickListener {
+//            childFragmentManager.apply {
+//                commit {
+//                    show(findFragmentByTag(Explore.TAG)!!)
+//                    hide(findFragmentByTag(HomeScreen.TAG)!!)
+//                }
+//            }
+//            view.findViewById<EditText>(R.id.searchField).apply {
+//                requestFocus()
+//                selectAll()
+//                showKeyboard(view)
+//            }
+//        }
     }
 
     companion object {
         const val TAG = "MainScreen"
     }
 }
+
+//                    childFragmentManager.apply {
+//                        commit {
+//                            val exploreFragment = findFragmentByTag(Explore.TAG)
+//                            if (exploreFragment == null) {
+//                                add<Explore>(R.id.mainScreenFrag, Explore.TAG)
+//                            }
+//                            show(findFragmentByTag(Explore.TAG)!!)
+//                            hide(findFragmentByTag(HomeScreen.TAG)!!)
+//                        }
+//                    }
+//                    selectedItemId = R.id.action_explore
+//                    view.findViewById<EditText>(R.id.searchField).apply {
+//                        requestFocus()
+//                        selectAll()
+//                        showKeyboard(view)
+//                    }
+//                }

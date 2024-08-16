@@ -1,8 +1,11 @@
 package com.example.myapplication.ui.view
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Selection.selectAll
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -10,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -19,6 +23,7 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.view.adapter.AdapterHomeScreen
 import com.example.myapplication.ui.view.adapter.AdapterMovies
 import com.example.myapplication.ui.viewmodel.ViewModelMovies
+import com.google.android.material.internal.ViewUtils.showKeyboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -32,6 +37,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
 
     private val BASE_URL_IMG: String = "https://image.tmdb.org/t/p/w500"
 
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,6 +47,23 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
 
         rvTopMovies.apply { adapter = adapterTopMovies }
         rvNewReleases.apply { adapter = adapterNewRelease }
+
+        view.findViewById<ImageView>(R.id.search).setOnClickListener {
+            Toast.makeText(
+                this.context, "Search Clicked", Toast.LENGTH_LONG
+            ).show()
+            parentFragmentManager.apply {
+                commit {
+                    show(findFragmentByTag(Explore.TAG)!!)
+                    hide(this@HomeScreen)
+                }
+            }
+            parentFragment?.view?.findViewById<EditText>(R.id.searchField)?.apply {
+                requestFocus()
+                selectAll()
+                showKeyboard(view)
+            }
+        }
 
         view.findViewById<TextView>(R.id.see_all1)?.setOnClickListener {
             activity?.supportFragmentManager?.commit {
@@ -71,7 +94,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                 for (image in viewModel.newReleases.value) {
+                for (image in viewModel.newReleases.value) {
                     view.findViewById<TextView>(R.id.movieName).text = image.name
                     val currentImageView = imageViews[currentImageViewIndex]
                     val nextImageView = imageViews[1 - currentImageViewIndex]
@@ -148,7 +171,6 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
         }
 
         viewModel.addMovieToDB(imageId, imageURL, imageRatings, movieName)
-        Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG)
-            .show()
+        Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG).show()
     }
 }

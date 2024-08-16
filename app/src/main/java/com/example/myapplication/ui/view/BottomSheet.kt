@@ -2,6 +2,7 @@ package com.example.myapplication.ui.view
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import com.example.myapplication.R
@@ -19,13 +20,15 @@ class BottomSheet : BottomSheetDialogFragment(R.layout.fragment_bottom_sheet) {
     private var genre = ""
     private var year: Int = 2024
     private var sort = ""
+    lateinit var bottomSheet: View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         dialog?.let { dialog ->
-            val bottomSheet = dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            bottomSheet?.let {
+            bottomSheet =
+                dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet.let {
                 val behavior = BottomSheetBehavior.from(it)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.skipCollapsed = true
@@ -34,8 +37,7 @@ class BottomSheet : BottomSheetDialogFragment(R.layout.fragment_bottom_sheet) {
                     check(viewModel.chipSettings.value.region)
                 }
 
-                for(i in 1..<(viewModel.chipSettings.value.genre.size - 1))
-                {
+                for (i in 1..<(viewModel.chipSettings.value.genre.size - 1)) {
                     view.findViewById<ChipGroup>(R.id.regionChipGroup).apply {
                         check(viewModel.chipSettings.value.genre[i])
                     }
@@ -51,6 +53,14 @@ class BottomSheet : BottomSheetDialogFragment(R.layout.fragment_bottom_sheet) {
             }
         }
         applyButtonAction(view)
+
+        view.findViewById<Button>(R.id.resetButton).setOnClickListener {
+            view.findViewById<ChipGroup>(R.id.regionChipGroup).check(R.id.allRegions)
+            view.findViewById<ChipGroup>(R.id.genreChipGroup).clearCheck()
+            view.findViewById<ChipGroup>(R.id.timeChipGroup).check(R.id.allPeriods)
+            view.findViewById<ChipGroup>(R.id.sortChipGroup).check(R.id.popularity)
+            viewModel.fetchTop10Movies(1)
+        }
     }
 
     private fun applyButtonAction(view: View) {
@@ -84,16 +94,8 @@ class BottomSheet : BottomSheetDialogFragment(R.layout.fragment_bottom_sheet) {
             }
 
             viewModel.advancedMovieFilter(region, genre, year, sort)
+            this.dismiss()
         }
-
-        view.findViewById<Button>(R.id.resetButton).setOnClickListener {
-            view.findViewById<ChipGroup>(R.id.regionChipGroup).check(R.id.allRegions)
-            view.findViewById<ChipGroup>(R.id.genreChipGroup).clearCheck()
-            view.findViewById<ChipGroup>(R.id.timeChipGroup).check(R.id.allPeriods)
-            view.findViewById<ChipGroup>(R.id.sortChipGroup).check(R.id.popularity)
-            viewModel.fetchTop10Movies(1)
-        }
-
     }
 
     companion object {
