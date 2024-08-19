@@ -71,16 +71,7 @@ class NewReleases : Fragment(R.layout.fragment_screen_top_movies), AdapterMovies
     override fun onItemClick(
         position: Int, imageId: Int, imageURL: String?, imageRatings: Double, movieName: String
     ) {
-        for (movie in viewModel.myList.value) {
-            if (movie.id == imageId) {
-                Toast.makeText(
-                    this.context, "This movie is already in your list.", Toast.LENGTH_SHORT
-                ).show()
-                return
-            }
-        }
-
-        viewModel.addMovieToDB(imageId, imageURL, imageRatings, movieName)
+        viewModel.addMovieToDB(this.requireContext(), imageId, imageURL, imageRatings, movieName)
         Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG)
             .show()
     }

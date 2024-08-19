@@ -3,7 +3,6 @@ package com.example.myapplication.ui.view
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -70,16 +69,6 @@ class TopMovies : Fragment(R.layout.fragment_screen_top_movies), AdapterMovies.R
     override fun onItemClick(
         position: Int, imageId: Int, imageURL: String?, imageRatings: Double, movieName: String
     ) {
-        for (movie in viewModel.myList.value) {
-            if (movie.id == imageId) {
-                Toast.makeText(
-                    this.context, "This movie is already in your list.", Toast.LENGTH_SHORT
-                ).show()
-                return
-            }
-        }
-
-        viewModel.addMovieToDB(imageId, imageURL, imageRatings, movieName)
-        Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG).show()
+        viewModel.addMovieToDB(this.requireContext(), imageId, imageURL, imageRatings, movieName)
     }
 }

@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.viewmodel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.MovaApp
@@ -83,9 +85,25 @@ class ViewModelExplore(
         }
     }
 
-    fun addMovieToDB(imageId: Int, imageURL: String?, imageRatings: Double, movieName: String) {
+    fun addMovieToDB(
+        context: Context,
+        imageId: Int,
+        imageURL: String?,
+        imageRatings: Double,
+        movieName: String
+    ) {
+        for (movie in myList.value) {
+            if (movie.id == imageId) {
+                Toast.makeText(
+                    context, "This movie is already in your list.", Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+        }
+
         viewModelScope.launch {
             movieRepository.addMovieToDatabase(imageId, imageURL, imageRatings, movieName)
+            Toast.makeText(context, "$movieName added to your list.", Toast.LENGTH_LONG).show()
         }
     }
 

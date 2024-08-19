@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
@@ -58,13 +57,18 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
                     hide(this@HomeScreen)
                 }
             }
-            parentFragment?.view?.findViewById<BottomNavigationView>(R.id.navbar)?.selectedItemId =
-                R.id.action_explore
-            parentFragment?.view?.findViewById<EditText>(R.id.searchField)?.apply {
-                requestFocus()
-                selectAll()
-                showKeyboard(view)
+
+            parentFragment?.view?.apply {
+                findViewById<BottomNavigationView>(R.id.navbar)?.selectedItemId =
+                    R.id.action_explore
+
+                findViewById<EditText>(R.id.searchField)?.apply {
+                    requestFocus()
+                    selectAll()
+                    showKeyboard(view)
+                }
             }
+
         }
 
         view.findViewById<TextView>(R.id.see_all1)?.setOnClickListener {
@@ -95,6 +99,16 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
         var currentImageViewIndex = 0
 
         for (image in viewModel.newReleases.value) {
+            view.findViewById<TextView>(R.id.myList).setOnClickListener {
+                viewModel.addMovieToDB(
+                    this.requireContext(),
+                    image.id,
+                    image.url,
+                    image.rating,
+                    image.name
+                )
+            }
+
             view.findViewById<TextView>(R.id.movieName).text = image.name
             val currentImageView = imageViews[currentImageViewIndex]
             val nextImageView = imageViews[1 - currentImageViewIndex]
@@ -130,6 +144,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
 
             delay(7000) // Delay for 7 seconds before loading the next image
         }
+        mainImage(view)
     }
 
     private fun addObservers(view: View) {
@@ -153,17 +168,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
     override fun onItemClick(
         position: Int, imageId: Int, imageURL: String?, imageRatings: Double, movieName: String
     ) {
-        for (movie in viewModel.myList.value) {
-            if (movie.id == imageId) {
-                Toast.makeText(
-                    this.context, "This movie is already in your list.", Toast.LENGTH_SHORT
-                ).show()
-                return
-            }
-        }
-
-        viewModel.addMovieToDB(imageId, imageURL, imageRatings, movieName)
-        Toast.makeText(this.context, "$movieName added to your list.", Toast.LENGTH_LONG).show()
+        viewModel.addMovieToDB(this.requireContext(), imageId, imageURL, imageRatings, movieName)
     }
 
     companion object {
