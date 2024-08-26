@@ -144,7 +144,7 @@ class HomeScreen : Fragment(R.layout.fragment_screen_home), AdapterMovies.Recycl
 
             delay(7000) // Delay for 7 seconds before loading the next image
         }
-        mainImage(view)
+        //mainImage(view)
     }
 
     private fun addObservers(view: View) {
