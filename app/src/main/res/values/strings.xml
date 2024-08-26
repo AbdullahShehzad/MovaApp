@@ -66,4 +66,6 @@
     <string name="my_list">My List</string>
     <string name="_2024">2024</string>
     <string name="_2023">2023</string>
+    <string name="title_dynamicfeature">Module Title</string>
+    <string name="title_instantdynamicfeature">Module Title</string>
 </resources>

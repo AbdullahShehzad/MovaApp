@@ -2,7 +2,6 @@ package com.example.myapplication.ui.view
 
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import com.example.myapplication.R

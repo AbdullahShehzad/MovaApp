@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.myapplication.R
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+open class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)

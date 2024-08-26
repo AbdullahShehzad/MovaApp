@@ -10,38 +10,37 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myapplication"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
-        versionCode = 1
+        versionCode = 1000
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true
     }
+//    dynamicFeatures += setOf(":InstantDynamicFeature")
 }
 
 dependencies {
-    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
