@@ -21,8 +21,13 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
+        }
+
+        debug {
+            isDebuggable = true
         }
     }
     compileOptions {
@@ -35,7 +40,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-//    dynamicFeatures += setOf(":InstantDynamicFeature")
 }
 
 dependencies {

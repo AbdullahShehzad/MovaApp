@@ -26,7 +26,7 @@ class BottomSheet : BottomSheetDialogFragment(R.layout.fragment_bottom_sheet) {
 
         dialog?.let { dialog ->
             bottomSheet =
-                dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+                dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet.let {
                 val behavior = BottomSheetBehavior.from(it)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED

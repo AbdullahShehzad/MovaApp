@@ -1,5 +1,16 @@
 package com.example.myapplication
 
-import com.example.myapplication.ui.view.MainActivity
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 
-class MainActivityInstantModule : MainActivity() {}
+class MainActivityInstantModule : AppCompatActivity(){
+    override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+        }
+    }
+}

@@ -21,6 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Application"
 include(":app")
-//include(":app:InstantAppModule")
-include(":instantapplication")
-//include(":InstantDynamicFeature")
